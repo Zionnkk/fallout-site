@@ -2,6 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Terminal Vault-Tec</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -18,13 +19,12 @@
 <div class="vignette"></div>
 
 <div class="terminal">
-
   <header class="topbar">
     <button onclick="trocarPagina('inicio')">INÍCIO</button>
     <button onclick="abrirSubmenu('submenu-faccoes')">FACÇÕES</button>
     <button onclick="abrirSubmenu('submenu-vaults')">VAULTS</button>
-    <button onclick="trocarPagina('bestiario')">BESTIÁRIO</button>
-<button onclick="abrirSubmenu('submenu-special')">S.P.E.C.I.A.L</button>
+    <button onclick="abrirSubmenu('submenu-bestiario')">BESTIÁRIO</button>
+    <button onclick="abrirSubmenu('submenu-special')">S.P.E.C.I.A.L</button>
     <button onclick="trocarPagina('sistema')">SISTEMA</button>
   </header>
 
@@ -46,77 +46,62 @@
     <button onclick="trocarPagina('vaulttec')">VAULT-TEC</button>
   </div>
 
-  <div id="submenu-special" class="submenu-top">
-  <button onclick="trocarPagina('special_s')">S - SOBREVIVÊNCIA</button>
-  <button onclick="trocarPagina('special_p')">P - PERCEPÇÃO</button>
-  <button onclick="trocarPagina('special_e')">E - ENERGIA</button>
-  <button onclick="trocarPagina('special_c')">C - CARISMA</button>
-  <button onclick="trocarPagina('special_i')">I - INTELIGÊNCIA</button>
-  <button onclick="trocarPagina('special_a')">A - AGILIDADE</button>
-  <button onclick="trocarPagina('special_l')">L - LÁBIA</button>
+  <div id="submenu-bestiario" class="submenu-top">
+  <button onclick="abrirBestiario()">ARQUIVO GERAL</button>
+  <button onclick="trocarPagina('besta_necroticos')">NECRÓTICOS</button>
+  <button onclick="trocarPagina('besta_radbaratas')">RADBARATAS</button>
+  <button onclick="trocarPagina('besta_mutantes')">SUPER MUTANTES</button>
+  <button onclick="trocarPagina('besta_mongrels')">MONGRELS</button>
+  <button onclick="trocarPagina('besta_vermes')">VERMES RADIOATIVOS</button>
+  <button onclick="trocarPagina('besta_deathclaw')">DEATHCLAW</button>
 </div>
 
-  <main class="main-area">
+  <div id="submenu-special" class="submenu-top">
+    <button onclick="trocarPagina('special_s')">S - SOBREVIVÊNCIA</button>
+    <button onclick="trocarPagina('special_p')">P - PERCEPÇÃO</button>
+    <button onclick="trocarPagina('special_e')">E - ENERGIA</button>
+    <button onclick="trocarPagina('special_c')">C - CARISMA</button>
+    <button onclick="trocarPagina('special_i')">I - INTELIGÊNCIA</button>
+    <button onclick="trocarPagina('special_a')">A - AGILIDADE</button>
+    <button onclick="trocarPagina('special_l')">L - LÁBIA</button>
+  </div>
 
+  <main class="main-area">
     <section class="pipboy-box">
-      <img src="assets/pipboy.png" class="pipboy-img">
+      <img src="assets/pipboy.png" class="pipboy-img" alt="Vault Boy">
       <p class="blink">VAULT-BOY STATUS: ONLINE</p>
+      <button id="anim-toggle" class="anim-toggle" onclick="alternarAnimacoes()">TEXTO ANIMADO: ON</button>
     </section>
 
     <section class="content">
       <div class="status">
-
         <div class="stat-card">
-          <div class="stat-label">
-            HP <span id="hp-text">80%</span>
-          </div>
-          <div class="bar">
-            <div class="bar-fill hp" id="hp-bar"></div>
-          </div>
+          <div class="stat-label">HP <span id="hp-text">80%</span></div>
+          <div class="bar"><div class="bar-fill hp" id="hp-bar"></div></div>
         </div>
 
         <div class="stat-card">
-          <div class="stat-label">
-            RAD <span id="rad-text">20%</span>
-          </div>
-          <div class="bar">
-            <div class="bar-fill rad" id="rad-bar"></div>
-          </div>
+          <div class="stat-label">RAD <span id="rad-text">20%</span></div>
+          <div class="bar"><div class="bar-fill rad" id="rad-bar"></div></div>
         </div>
 
         <div class="stat-card small">LVL 07</div>
         <div class="stat-card small">CAPS 1250</div>
-
       </div>
 
-      <h1 id="titulo">TERMINAL DA <VAULT-TEC></VAULT-TEC></h1>
+      <h1 id="titulo">TERMINAL DA VAULT-TEC</h1>
       <p id="texto" class="typing"></p>
-      <img id="special-img" class="special-img">
-      <div id="special-area" class="special"></div>
+      <div id="bestiario-controle" class="bestiario-controle"></div>
+      <img id="special-img" class="special-img" alt="Imagem S.P.E.C.I.A.L">
     </section>
-
   </main>
 </div>
 
 <script>
-  function mostrarImagem(imgSrc) {
-  const img = document.getElementById("special-img");
-
-  if (!imgSrc) {
-    img.style.display = "none";
-    return;
-  }
-
-  img.src = imgSrc;
-  img.style.display = "block";
-}
 document.body.classList.add("booting");
 
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-document.addEventListener("click", () => {
-  audioCtx.resume();
-});
+document.addEventListener("click", () => audioCtx.resume());
 
 const paginas = {
   inicio: {
@@ -126,101 +111,261 @@ const paginas = {
 
   ncr: {
     titulo: "NCR",
-    texto: "A New California Republic tenta reconstruir a civilização com leis, exército e governo. Apesar de seu modus operandi mais agressivo, luta contra a corrupção, a buracracia e os perigos dos ermos para proteger todas as vitimas da guerra e de suas sequelas que deixaram no mundo."
+    texto: "A New California Republic tenta reconstruir a civilização com leis, exército e governo. Apesar de seu modus operandi mais agressivo, luta contra a corrupção, a burocracia e os perigos do Ermo para proteger as vítimas da guerra e de suas sequelas."
   },
+
   mutants: {
     titulo: "MUTANTS",
     texto: "Criaturas alteradas pelo FEV. Fortes, resistentes e extremamente perigosas. Alguns mantêm consciência; outros são puro instinto."
   },
+
   enclave: {
     titulo: "ENCLAVE",
     texto: "Organização militar tecnológica formada por remanescentes do antigo governo dos Estados Unidos. Possuem armas avançadas e objetivos obscuros."
   },
+
   bos: {
     titulo: "BROTHERHOOD OF STEEL",
     texto: "Ordem militar dedicada a coletar e preservar tecnologia pré-guerra. Disciplina, armaduras potentes e fanatismo tecnológico definem sua presença."
   },
+
   legion: {
     titulo: "CAESAR'S LEGION",
     texto: "Império brutal inspirado em Roma Antiga. Baseado em força, escravidão, disciplina absoluta e dominação total dos inimigos."
   },
+
   railroad: {
     titulo: "RAILROAD",
     texto: "Organização secreta dedicada a libertar synths da escravidão. Operam nas sombras, usando códigos, disfarces e rotas ocultas."
   },
+
   minutemen: {
     titulo: "MINUTEMEN",
     texto: "Civis armados que defendem assentamentos e ajudam comunidades isoladas. Representam esperança em meio ao caos do Ermo."
   },
+
   raiders: {
     titulo: "RAIDERS",
     texto: "Bandos violentos que vivem de pilhagem, caos e sobrevivência. Cada grupo tem sua própria crueldade, estética e território."
   },
+
   children: {
     titulo: "CHILDREN OF ATOM",
     texto: "Seita religiosa que venera a radiação como manifestação divina. Para eles, o átomo é sagrado e a destruição é iluminação."
   },
+
   vault13: {
     titulo: "VAULT 13",
     texto: "Um dos Vaults mais conhecidos dos registros do Ermo. Seus arquivos permanecem fragmentados, mas sua importância histórica é enorme."
   },
+
   vault111: {
     titulo: "VAULT 111",
     texto: "Vault conhecido por experimentos criogênicos. Oficialmente, preservação humana. Na prática, observação científica de longo prazo."
   },
+
   vaulttec: {
     titulo: "VAULT-TEC",
     texto: "Corporação responsável pelos Vaults. Oficialmente: proteção. Extraoficialmente: experimentos sociais, biológicos e psicológicos."
   },
+
   bestiario: {
     titulo: "BESTIÁRIO",
     texto: "Deathclaws, necróticos, radbaratas, mutantes e aberrações radioativas. O Ermo está vivo — e quase tudo nele quer te matar."
   },
+
+  bestiario_sobre: {
+    titulo: "BESTIÁRIO // PÁGINA 1",
+    texto: `Parabéns! Ao acessar este terminal, você demonstrou a iniciativa e a curiosidade necessárias para garantir a preservação da vida — sob a supervisão da Vault-Tec, é claro.
+
+Enquanto você desfruta do conforto e da segurança absoluta de nossos setores subterrâneos, o mundo exterior... bem, digamos que ele passou por algumas "reestruturações biológicas" não planejadas.
+
+Mas não se preocupe! O Bestiário da Vault-Tec está aqui apenas para te proteger; é o seu Protocolo de Sobrevivência Taxonômico. Nós representamos o ápice da catalogação científica em um cenário de Grande Guerra, servindo como o banco de dados biológico definitivo para o habitante da Vault que ousa olhar para cima!`
+  },
+
+  bestiario_atributos: {
+    titulo: "BESTIÁRIO // PÁGINA 2",
+    texto: `Enquanto você desfruta do ar reciclado e da iluminação fluorescente reconfortante da nossa instalação, a seleção natural está operando a todo vapor na superfície.
+
+Para garantir que sua primeira (e talvez última) incursão ao exterior não seja meramente estatística, a Vault-Tec compilou os níveis de atributos de cada espécime mutagênico.
+
+== MÉTRICAS DE AVALIAÇÃO BIOLÓGICA ==
+
+Força: Capacidade de compressão mandibular e potência de impacto.
+> Determina quão rápido sua armadura será amassada.
+
+Velocidade: Taxa de deslocamento cinético em terreno irregular.
+> Define se você deve correr ou apenas aceitar o destino.
+
+Resistência: Densidade dérmica e tolerância a trauma balístico/térmico.
+> Indica quanta munição você desperdiçará antes de ver resultados.
+
+Ameaça: Índice ponderado de letalidade e agressividade instintiva.
+> Nível de pânico recomendado ao avistar o espécime.
+
+VAULT-TEC REITERA:
+Observamos uma tendência alarmante entre habitantes mais... "otimistas".
+
+> NÃO tente domesticar, alimentar ou criar vínculo com criaturas do Ermo.`
+  },
+
+  besta_necroticos: {
+  titulo: "BESTIÁRIO // NECRÓTICOS",
+  texto: `Antigos humanos expostos à radiação extrema por longos períodos.
+
+Força: 3
+> Ainda possuem força física suficiente para rasgar carne e derrubar habitantes despreparados.
+
+Velocidade: Variável
+> Alguns se arrastam lentamente; outros correm como se tivessem esquecido de morrer.
+
+Resistência: 6
+> A radiação preservou o corpo de maneira inadequada, porém eficiente.
+
+Ameaça: 5/10
+> Sozinhos são incômodos. Em grupo, tornam-se um problema administrativo grave.`
+},
+
+besta_radbaratas: {
+  titulo: "BESTIÁRIO // RADBARATAS",
+  texto: `Insetos domésticos ampliados por radiação e péssimas circunstâncias sanitárias.
+
+Força: 1
+> Não esmagam sua armadura, mas certamente arruinam seu café da manhã.
+
+Velocidade: 3
+> Pequenas, rápidas e socialmente inconvenientes.
+
+Resistência: 1
+> Um bom golpe costuma resolver. Dois, se você estiver nervoso.
+
+Ameaça: 1/10
+> Recomenda-se evitar contato direto, mordidas e qualquer tentativa de domesticação.`
+},
+
+besta_mutantes: {
+  titulo: "BESTIÁRIO // SUPER MUTANTES",
+  texto: `Humanos alterados pelo FEV, resultando em massa muscular extrema, resistência elevada e julgamento social reduzido.
+
+Força: 8
+> Capazes de esmagar portas, ossos e expectativas otimistas.
+
+Velocidade: 4
+> Não são os mais rápidos, mas compensam chegando com força.
+
+Resistência: 8
+> Absorvem munição com uma dedicação quase patriótica.
+
+Ameaça: 7/10
+> Ao avistar um, reavalie suas escolhas de vida imediatamente.`
+},
+
+besta_mongrels: {
+  titulo: "BESTIÁRIO // MONGRELS",
+  texto: `Cães selvagens mutados, frequentemente encontrados em bandos e péssimo humor.
+
+Força: 4
+> Mandíbulas fortes o bastante para transformar tornozelos em estatística.
+
+Velocidade: 6
+> Aproximam-se rápido demais para uma conversa civilizada.
+
+Resistência: 4
+> Não são blindados, mas raramente atacam sozinhos.
+
+Ameaça: 3/10
+> O perigo real está no bando. E no fato de que eles não respeitam propriedade privada.`
+},
+
+besta_vermes: {
+  titulo: "BESTIÁRIO // VERMES RADIOATIVOS",
+  texto: `Organismos rastejantes adaptados ao solo contaminado, cadáveres e ambientes onde ninguém deveria colocar a mão. São vermes peçonhentos comos ratos, toupeiras... ratos-toupeiras alterados pela radiação.
+
+Força: 2
+> Pequenos, mas desagradavelmente persistentes.
+
+Velocidade: 2
+> A lentidão não impede que apareçam nos piores lugares possíveis.
+
+Resistência: 4
+> Sobrevivem onde a higiene já desistiu.
+
+Ameaça: 1/10
+> Não subestime criaturas que vivem felizes dentro de lixo tóxico.`
+},
+
+besta_deathclaw: {
+  titulo: "BESTIÁRIO // DEATHCLAW",
+  texto: `Predador ápice das terras esquecidas. A Vault-Tec recomenda observação apenas por ilustrações, filmagens ou relatos de terceiros falecidos. Deathclaws são extremamente perigosos e violentos. DeathClaws não foram criados pela radiação, são armas biológicas vindas de um experimento secreto que foram alteradas pela radiação. NUNCA SE APROXIME DE UM DEATHCLAW! ARMADURAS NÃO SÃO O SUFICIENTE!
+
+Força: 15 
+> Capaz de abrir armaduras, veículos e habitantes com eficiência alarmante.
+
+Velocidade: 8
+> Corre rápido o suficiente para tornar o arrependimento instantâneo.
+
+Resistência: 12
+> Munição convencional pode apenas irritá-lo. É como uma pequena coceirinha.
+
+Ameaça: 10/10
+> Procedimento recomendado: não estar no mesmo lugar que ele.`
+},
+
   sistema: {
-  titulo: "SISTEMA DE SOBREVIVÊNCIA",
-  texto: "Radiação, reputação, munição, fome, sede e ferimentos afetam sua jornada. Cada escolha altera sua chance de sobreviver."
-},
+    titulo: "SISTEMA DE SOBREVIVÊNCIA",
+    texto: "Radiação, reputação, munição, fome, sede e ferimentos afetam sua jornada. Cada escolha altera sua chance de sobreviver."
+  },
 
-special_s: {
-  titulo: "S - SOBREVIVÊNCIA",
-  texto: "Olá, Cidadão Exemplar! Você já parou para admirar a robustez das engrenagens que mantêm nossa Vault funcionando? Pois saiba que você também é uma peça fundamental dessa máquina! A Força é a medida da sua capacidade física bruta para interagir com o mundo ao seu redor. Para a Vault-Tec, um Habitante forte é sinônimo de eficiência logística! Este atributo define o quão pesado é o fardo que você consegue carregar — seja uma caixa cheia de suprimentos médicos vitais ou aquele entulho inconveniente que insiste em bloquear os corredores. Mas a Força não serve apenas para carregar coisas; ela garante que, quando as palavras falharem (o que esperamos que nunca aconteça!), você tenha o impacto necessário para resolver qualquer disputa física com... vigor!",
-},
+  special_s: {
+    titulo: "S - SOBREVIVÊNCIA",
+    texto: "Olá, Cidadão Exemplar! Você já parou para admirar a robustez das engrenagens que mantêm nossa Vault funcionando? Pois saiba que você também é uma peça fundamental dessa máquina! A Força é a medida da sua capacidade física bruta para interagir com o mundo ao seu redor. Para a Vault-Tec, um Habitante forte é sinônimo de eficiência logística! Este atributo define o quão pesado é o fardo que você consegue carregar — seja uma caixa cheia de suprimentos médicos vitais ou aquele entulho inconveniente que insiste em bloquear os corredores. Mas a Força não serve apenas para carregar coisas; ela garante que, quando as palavras falharem, você tenha o impacto necessário para resolver qualquer disputa física com... vigor!",
+    imagem: "assets/assets/s.png"
+  },
 
-special_p: {
-  titulo: "P - PERCEPÇÃO",
-  texto: "Atenção, Habitante! No ambiente controlado e seguro da sua Vault, a curiosidade pode ter matado o gato, mas a Percepção mantém você vivo! Este atributo representa sua sintonização fina com o ambiente ao seu redor. Ser perceptivo significa ser o primeiro a notar aquele vazamento de gás sutil no Nível 3, ou identificar quem pegou o último rolo de papel higiênico antes mesmo dele sumir! Mas não para por aí: lá fora — naquele cenário hipotético e improvável que chamamos de 'exterior' — sua Percepção ajuda você a detectar ameaças antes que elas detectem você. Seja ajustando a mira do seu rifle de serviço com precisão cirúrgica ou notando aquela armadilha de pressão que algum vândalo deixou no caminho, seus sentidos são ferramentas de alta fidelidade. Fique de olho nos detalhes, pois a Vault-Tec está de olho em você!"
-},
+  special_p: {
+    titulo: "P - PERCEPÇÃO",
+    texto: "Atenção, Habitante! No ambiente controlado e seguro da sua Vault, a curiosidade pode ter matado o gato, mas a Percepção mantém você vivo! Este atributo representa sua sintonização fina com o ambiente ao seu redor. Lá fora — naquele cenário hipotético e improvável que chamamos de exterior — sua Percepção ajuda você a detectar ameaças antes que elas detectem você. Seja ajustando a mira do seu rifle de serviço com precisão cirúrgica ou notando aquela armadilha de pressão que algum vândalo deixou no caminho, seus sentidos são ferramentas de alta fidelidade. Fique de olho nos detalhes, pois a Vault-Tec está de olho em você!",
+    imagem: "assets/assets/special/p.png"
+  },
 
-special_e: {
-  titulo: "E - ENERGIA",
-  texto: "Saudações, Habitante! Você já se perguntou por que alguns de seus vizinhos parecem tão... bem, dispostos, enquanto outros cansam só de carregar uma bandeja de Cram? Isso é a Energia em ação! Para a Vault-Tec, sua saúde é o nosso maior patrimônio (literalmente!). Este atributo mede a incrível capacidade do seu organismo de ignorar os pequenos 'incômodos' da vida moderna, como a fome persistente, a fadiga muscular e, é claro, aquela radiaçãozinha ambiente que todos aprendemos a amar. Um Habitante com alta Resistência é um Habitante que produz mais! Seja resistindo a doenças contagiosas ou suportando ferimentos que fariam um cidadão comum pedir folga, você é o pilar de aço da nossa sociedade subterrânea. Lembre-se: um corpo resistente é um corpo que sobrevive para ver o amanhã... e o relatório de amanhã!"
-},
+  special_e: {
+    titulo: "E - ENERGIA",
+    texto: "Saudações, Habitante! Energia mede sua resistência física, tolerância à fadiga, fome, ferimentos e radiação. Um Habitante com alta Energia aguenta mais, trabalha mais e sobrevive por mais tempo. Lembre-se: um corpo resistente é um corpo que sobrevive para ver o amanhã... e o relatório de amanhã!",
+    imagem: "assets/assets/special/e.png"
+  },
 
-special_c: {
-  titulo: "C - CARISMA",
-  texto: "Saudações, Líder do Amanhã! Você já percebeu como uma palavra bem dita pode abrir portas mais rápido que um pé-de-cabra? Isso é o Carisma! Para a Vault-Tec, a coesão social é o tempero da sobrevivência. Este atributo representa sua capacidade magnética de encantar, liderar e, quando necessário, 'redirecionar' as intenções de outros indivíduos. Seja negociando preços mais justos com mercadores itinerantes (afinal, cada tampinha conta para a economia da Vault!) ou inspirando seus companheiros de equipe a darem o melhor de si em situações estressantes, o seu charme é uma ferramenta de precisão. Um Habitante carismático não precisa apenas de músculos ou armas; ele usa a diplomacia para transformar inimigos em aliados e obstáculos em oportunidades."
-},
+  special_c: {
+    titulo: "C - CARISMA",
+    texto: "Saudações, Líder do Amanhã! Carisma representa sua capacidade de convencer, liderar, negociar, intimidar ou manipular outros sobreviventes. Uma boa conversa pode abrir portas que uma arma jamais abriria. Para a Vault-Tec, a coesão social é o tempero da sobrevivência. Use seu charme com responsabilidade corporativa.",
+    imagem: "assets/assets/special/c.png"
+  },
 
-special_i: {
-  titulo: "I - INTELIGÊNCIA",
-  texto: "Saudações, Mente Brilhante! Você já olhou para um amontoado de fios e metal e viu não apenas lixo, mas uma oportunidade de progresso? Isso é a Inteligência! Para a Vault-Tec, o intelecto é o combustível que alimenta o motor da recuperação nacional. Este atributo representa sua habilidade superior de processar dados, compreender tecnologias complexas e dominar as artes da ciência e da estratégia. Seja aplicando primeiros socorros avançados para manter seus colegas de trabalho em plena operação, ou hackeando terminais antigos para extrair segredos valiosos da era pré-guerra, sua mente é sua arma mais afiada. Um Habitante inteligente não apenas sobrevive; ele otimiza! Você saberá exatamente como consertar aquele gerador crítico, como destilar substâncias químicas úteis ou como traçar o plano tático perfeito para evitar gastos desnecessários de munição."
-},
+  special_i: {
+    titulo: "I - INTELIGÊNCIA",
+    texto: "Saudações, Mente Brilhante! Inteligência representa sua habilidade com tecnologia, medicina, ciência e estratégia. Terminais, máquinas pré-guerra e planos complexos favorecem os mais inteligentes. Um Habitante inteligente não apenas sobrevive; ele otimiza!",
+    imagem: "assets/assets/special/i.png"
+  },
 
-special_a: {
-  titulo: "A - AGILIDADE",
-  texto: "Saudações, Atleta da Vault! Você já sentiu aquela vontade de realizar suas tarefas antes mesmo do café da manhã estar pronto? Isso é a sua Agilidade pedindo passagem! Para a Vault-Tec, a velocidade é a alma do progresso. Este atributo representa o seu refinamento motor, seus reflexos ultra-ajustados e a graça com que você navega pelos corredores (ou escombros!). Ser um Habitante ágil significa que você é o mestre da reação. Seja esquivando-se de um projétil inesperado com a leveza de uma pluma ou recarregando seu armamento de serviço em um piscar de olhos, você é a personificação da fluidez. Sua capacidade de se mover silenciosamente garante que você possa realizar 'inspeções surpresa' em qualquer ambiente sem ser detectado, mantendo a vantagem tática em todas as situações."
-},
+  special_a: {
+    titulo: "A - AGILIDADE",
+    texto: "Saudações, Atleta da Vault! Agilidade representa seus reflexos, velocidade e controle corporal. Um Habitante ágil reage rápido, se move melhor e evita problemas antes que eles encostem nele. Seja esquivando-se de um projétil inesperado ou recarregando em um piscar de olhos, você é a personificação da fluidez.",
+    imagem: "assets/assets/special/a.png"
+  },
 
-special_l: {
-  titulo: "L - LÁBIA DA SORTE",
-  texto: "Saudações, Sortudo! Você já sentiu que o universo conspirou para que aquela última bala encontrasse o alvo, ou que aquele baú enferrujado escondia exatamente o que você precisava? Isso não é coincidência, é a sua Sorte! Para a Vault-Tec, a Sorte é a variável 'X' que transforma um desastre estatístico em uma vitória triunfante. Este atributo representa aquela ajudinha invisível que faz os dados rolarem a seu favor quando a lógica diz o contrário. Um Habitante sortudo encontra as melhores sucatas, sobrevive a emboscadas impossíveis e, ocasionalmente, vê seus problemas se resolverem por 'puro acaso'."
-},
-}
-;
+  special_l: {
+    titulo: "L - LÁBIA DA SORTE",
+    texto: "Saudações, Sortudo! Lábia da Sorte representa improviso, malandragem, blefe e aquele inexplicável empurrão do destino. Às vezes, sobreviver é estar no lugar errado... mas do jeito certo. Para a Vault-Tec, Sorte é a variável X que transforma desastre estatístico em vitória triunfante.",
+    imagem: "assets/assets/special/l.png"
+  }
+};
 
 let intervalo;
+let animacoesTextoAtivas = true;
+let paginaBestiario = 1;
 
 function som(freq, duracao, volume, tipo = "square") {
+  if (audioCtx.state === "suspended") return;
+
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
 
@@ -247,16 +392,34 @@ function tocarTecla() {
 
 function tocarGlitch() {
   for (let i = 0; i < 4; i++) {
-    setTimeout(() => {
-      som(120 + Math.random() * 500, 0.04, 0.035, "sawtooth");
-    }, i * 35);
+    setTimeout(() => som(120 + Math.random() * 500, 0.04, 0.035, "sawtooth"), i * 35);
   }
 }
 
+function alternarAnimacoes() {
+  animacoesTextoAtivas = !animacoesTextoAtivas;
+
+  const botao = document.getElementById("anim-toggle");
+  botao.textContent = animacoesTextoAtivas ? "TEXTO ANIMADO: ON" : "TEXTO ANIMADO: OFF";
+
+  tocarClique();
+}
+
+function mostrarImagem(imgSrc) {
+  const img = document.getElementById("special-img");
+
+  if (!imgSrc) {
+    img.style.display = "none";
+    img.removeAttribute("src");
+    return;
+  }
+
+  img.src = imgSrc;
+  img.style.display = "block";
+}
+
 function fecharSubmenus() {
-  document.querySelectorAll(".submenu-top").forEach(menu => {
-    menu.classList.remove("ativo");
-  });
+  document.querySelectorAll(".submenu-top").forEach(menu => menu.classList.remove("ativo"));
 }
 
 function abrirSubmenu(id) {
@@ -267,9 +430,7 @@ function abrirSubmenu(id) {
 
   fecharSubmenus();
 
-  if (!estavaAberto) {
-    submenu.classList.add("ativo");
-  }
+  if (!estavaAberto) submenu.classList.add("ativo");
 }
 
 function digitarTexto(texto, comSom = true) {
@@ -278,24 +439,60 @@ function digitarTexto(texto, comSom = true) {
   const elemento = document.getElementById("texto");
   elemento.textContent = "";
 
+  if (!animacoesTextoAtivas) {
+    elemento.textContent = texto;
+    return;
+  }
+
   let i = 0;
 
   intervalo = setInterval(() => {
     elemento.textContent += texto[i];
 
-    if (comSom && i % 2 === 0) {
-      tocarTecla();
-    }
+    if (comSom && i % 2 === 0) tocarTecla();
 
     i++;
 
-    if (i >= texto.length) {
-      clearInterval(intervalo);
-    }
+    if (i >= texto.length) clearInterval(intervalo);
   }, 35);
 }
 
-function trocarPagina(pagina) {
+function abrirBestiario() {
+  paginaBestiario = 1;
+  trocarPagina("bestiario_sobre", true);
+  mostrarControleBestiario();
+}
+
+function alternarPaginaBestiario() {
+  if (paginaBestiario === 1) {
+    paginaBestiario = 2;
+    trocarPagina("bestiario_atributos", true);
+  } else {
+    paginaBestiario = 1;
+    trocarPagina("bestiario_sobre", true);
+  }
+
+  mostrarControleBestiario();
+}
+
+function mostrarControleBestiario() {
+  const controle = document.getElementById("bestiario-controle");
+
+  controle.style.display = "flex";
+  controle.innerHTML = `
+    <button onclick="alternarPaginaBestiario()" class="page-arrow blink-arrow">
+      ${paginaBestiario === 1 ? ">" : "<"}
+    </button>
+    <span>PÁGINA ${paginaBestiario}/2</span>
+  `;
+}
+
+function trocarPagina(pagina, manterControleBestiario = false) {
+  if (!paginas[pagina]) return;
+
+  const controleBestiario = document.getElementById("bestiario-controle");
+  if (controleBestiario && !manterControleBestiario) controleBestiario.style.display = "none";
+
   tocarClique();
   tocarGlitch();
   fecharSubmenus();
@@ -305,14 +502,10 @@ function trocarPagina(pagina) {
   mostrarImagem(paginas[pagina].imagem);
 }
 
-document.getElementById("titulo").textContent = paginas.inicio.titulo;
-digitarTexto(paginas.inicio.texto, false);
-
 function glitchBar(idTexto, idBarra, base, variacao, tipo) {
   setInterval(() => {
     const valor = base + Math.floor(Math.random() * variacao * 2 - variacao);
     const valorLimitado = Math.max(0, Math.min(100, valor));
-
     const texto = document.getElementById(idTexto);
     const barra = document.getElementById(idBarra);
     const card = barra.closest(".stat-card");
@@ -320,18 +513,10 @@ function glitchBar(idTexto, idBarra, base, variacao, tipo) {
     texto.textContent = valorLimitado + "%";
     barra.style.width = valorLimitado + "%";
 
-    if (tipo === "hp") {
-      card.classList.toggle("glitch-alert", valorLimitado < 78);
-    }
-
-    if (tipo === "rad") {
-      card.classList.toggle("rad-alert", valorLimitado > 21);
-    }
+    if (tipo === "hp") card.classList.toggle("glitch-alert", valorLimitado < 78);
+    if (tipo === "rad") card.classList.toggle("rad-alert", valorLimitado > 21);
   }, 420);
 }
-
-glitchBar("hp-text", "hp-bar", 80, 7, "hp");
-glitchBar("rad-text", "rad-bar", 20, 5, "rad");
 
 const bootLinhas = [
   "ROBCO INDUSTRIES UNIFIED OPERATING SYSTEM",
@@ -356,7 +541,6 @@ function iniciarBoot() {
   const intervaloBoot = setInterval(() => {
     textoFinal += bootLinhas[linha][letra];
     output.innerHTML = textoFinal.replace(/\n/g, "<br>");
-
     letra++;
 
     if (letra >= bootLinhas[linha].length) {
@@ -367,7 +551,6 @@ function iniciarBoot() {
 
     if (linha >= bootLinhas.length) {
       clearInterval(intervaloBoot);
-
       boot.classList.remove("glitchando");
       boot.classList.add("piscando");
 
@@ -378,14 +561,16 @@ function iniciarBoot() {
           boot.style.display = "none";
           document.body.classList.remove("booting");
         }, 800);
-
       }, 2000);
     }
   }, 35);
 }
 
+document.getElementById("titulo").textContent = paginas.inicio.titulo;
+digitarTexto(paginas.inicio.texto, false);
+glitchBar("hp-text", "hp-bar", 80, 7, "hp");
+glitchBar("rad-text", "rad-bar", 20, 5, "rad");
 iniciarBoot();
 </script>
-
 </body>
 </html>

@@ -1,0 +1,397 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #020602;
+  color: #39ff14;
+  font-family: "Courier New", monospace;
+  overflow: hidden;
+  cursor: cell;
+}
+
+button {
+  cursor: crosshair;
+}
+
+body.booting .terminal {
+  display: none;
+}
+
+#boot-screen {
+  position: fixed;
+  inset: 0;
+  background: #020602;
+  color: #39ff14;
+  z-index: 999999;
+  display: block;
+  padding: 40px;
+  font-family: "Courier New", monospace;
+  text-shadow: 0 0 10px #39ff14;
+  transition: opacity 0.8s ease;
+}
+
+.boot-text {
+  width: 760px;
+  min-height: 260px;
+  border: 2px solid #39ff14;
+  padding: 30px;
+  box-shadow: 0 0 25px #39ff14;
+  background: rgba(0, 20, 0, 0.45);
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+#boot-screen.glitchando .boot-text {
+  animation: bootGlitch 0.12s infinite;
+}
+
+#boot-screen.piscando {
+  animation: bootPiscando 0.18s infinite;
+}
+
+.boot-cursor {
+  animation: piscar 0.6s infinite;
+}
+
+.terminal {
+  height: 100vh;
+  padding: 25px;
+  animation: ligarTela 1.2s ease-out;
+}
+
+.topbar {
+  display: flex;
+  gap: 12px;
+  border: 2px solid #39ff14;
+  padding: 15px;
+  box-shadow: 0 0 20px #39ff14;
+  background: rgba(0, 30, 0, 0.45);
+}
+
+.topbar button,
+.submenu-top button {
+  background: transparent;
+  color: #39ff14;
+  border: 1px solid #39ff14;
+  padding: 12px 18px;
+  font-family: inherit;
+  font-size: 16px;
+  text-shadow: 0 0 8px #39ff14;
+  transition: 0.15s;
+}
+
+.topbar button:hover,
+.submenu-top button:hover {
+  background: #39ff14;
+  color: #020602;
+  box-shadow: 0 0 15px #39ff14;
+  transform: translateY(-2px);
+}
+
+.submenu-top {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  margin-top: 10px;
+  border: 1px solid transparent;
+  transition: 0.4s ease;
+}
+
+.submenu-top.ativo {
+  max-height: 170px;
+  opacity: 1;
+  border: 1px solid #39ff14;
+  padding: 12px;
+  box-shadow: 0 0 15px #39ff14;
+  background: rgba(0, 25, 0, 0.55);
+}
+
+.main-area {
+  display: flex;
+  gap: 25px;
+  height: calc(100vh - 130px);
+  margin-top: 25px;
+}
+
+.pipboy-box {
+  width: 320px;
+  border: 2px solid #39ff14;
+  padding: 20px;
+  box-shadow: 0 0 25px #39ff14;
+  background: rgba(0, 20, 0, 0.35);
+  text-align: center;
+}
+
+.pipboy-img {
+  width: 100%;
+  filter:
+    sepia(1)
+    hue-rotate(60deg)
+    saturate(4)
+    brightness(1.15)
+    drop-shadow(0 0 15px #39ff14);
+  animation: flutuar 3s ease-in-out infinite, piscarImagem 2.8s infinite;
+}
+
+.pipboy-box p {
+  text-shadow: 0 0 8px #39ff14;
+}
+
+.blink {
+  animation: piscar 1s infinite;
+}
+
+.content {
+  flex: 1;
+  border: 2px solid #39ff14;
+  padding: 30px;
+  box-shadow: 0 0 25px #39ff14;
+  background: rgba(0, 20, 0, 0.35);
+  overflow-y: auto;
+}
+
+.status {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #39ff14;
+  padding-bottom: 15px;
+  margin-bottom: 25px;
+}
+
+.stat-card {
+  min-width: 160px;
+  border: 1px solid #39ff14;
+  padding: 10px 12px;
+  box-shadow: 0 0 8px #39ff14;
+  background: rgba(57, 255, 20, 0.08);
+  text-shadow: 0 0 8px #39ff14;
+}
+
+.stat-card.small {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 110px;
+}
+
+.stat-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.bar {
+  height: 10px;
+  border: 1px solid #39ff14;
+  background: rgba(57, 255, 20, 0.08);
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: #39ff14;
+  box-shadow: 0 0 12px #39ff14;
+  animation: barraPulso 1.8s infinite;
+}
+
+.bar-fill.hp {
+  width: 80%;
+}
+
+.bar-fill.rad {
+  width: 20%;
+}
+
+.stat-card.glitch-alert {
+  animation: danoGlitch 0.18s infinite;
+  border-color: #ff3333;
+  box-shadow: 0 0 14px #ff3333;
+}
+
+.stat-card.rad-alert {
+  animation: radGlitch 0.25s infinite;
+}
+
+.stat-card.glitch-alert .bar-fill {
+  background: #ff3333;
+  box-shadow: 0 0 18px #ff3333;
+}
+
+.stat-card.rad-alert .bar-fill {
+  filter: brightness(1.8);
+}
+
+h1 {
+  font-size: 38px;
+  text-shadow: 0 0 12px #39ff14;
+}
+
+.typing {
+  font-size: 22px;
+  line-height: 1.6;
+  max-width: 850px;
+}
+
+.typing::after {
+  content: "█";
+  animation: piscar 0.8s infinite;
+}
+
+.scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.04),
+    rgba(255,255,255,0.04) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  z-index: 10;
+}
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle, transparent 55%, rgba(0, 0, 0, 0.75));
+  z-index: 11;
+}
+
+@keyframes piscar {
+  0%, 50% {
+    opacity: 1;
+  }
+
+  51%, 100% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes bootGlitch {
+  0% { transform: translate(0); }
+  25% { transform: translate(2px, -1px); }
+  50% { transform: translate(-2px, 1px); }
+  75% { transform: translate(1px, 2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes bootPiscando {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+@keyframes barraPulso {
+  0%, 100% {
+    opacity: 0.75;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes danoGlitch {
+  0% { transform: translate(0); }
+  25% { transform: translate(-2px, 1px); }
+  50% { transform: translate(2px, -1px); }
+  75% { transform: translate(-1px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes radGlitch {
+  0% { opacity: 1; transform: skew(0deg); }
+  40% { opacity: 0.65; transform: skew(3deg); }
+  70% { opacity: 1; transform: skew(-2deg); }
+  100% { opacity: 0.85; transform: skew(0deg); }
+}
+
+@keyframes piscarImagem {
+  0%, 100% {
+    opacity: 1;
+    filter:
+      sepia(1)
+      hue-rotate(60deg)
+      saturate(4)
+      brightness(1.15)
+      drop-shadow(0 0 15px #39ff14);
+  }
+
+  50% {
+    opacity: 0.82;
+    filter:
+      sepia(1)
+      hue-rotate(60deg)
+      saturate(4)
+      brightness(1.55)
+      drop-shadow(0 0 25px #39ff14);
+  }
+}
+
+@keyframes ligarTela {
+  0% {
+    transform: scaleY(0.05);
+    opacity: 0;
+    filter: brightness(4);
+  }
+
+  60% {
+    transform: scaleY(1.05);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scaleY(1);
+    filter: brightness(1);
+  }
+}
+
+@keyframes flutuar {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: repeating-linear-gradient(
+    to bottom,
+    #020602,
+    #020602 6px,
+    rgba(57, 255, 20, 0.12) 7px
+  );
+  border-left: 1px solid #39ff14;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0f3f0f;
+  border: 1px solid #39ff14;
+  box-shadow: 0 0 12px #39ff14;
+}.special-img {
+  display: none;
+  margin-top: 25px;
+  max-width: 260px;
+
+  filter:
+    grayscale(1)
+    contrast(1.4)
+    brightness(1.2)
+    sepia(1)
+    hue-rotate(60deg)
+    saturate(6)
+    drop-shadow(0 0 12px #39ff14);
+
+  animation:
+    flutuar 3s ease-in-out infinite,
+    piscarImagem 2.5s infinite;
+}

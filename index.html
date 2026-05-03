@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Terminal Vault-Tec</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="boot-screen">
+  <div class="boot-text">
+    <p id="boot-output"></p>
+    <span class="boot-cursor">█</span>
+  </div>
+</div>
+
+<div class="scanlines"></div>
+<div class="vignette"></div>
+
+<div class="terminal">
+
+  <header class="topbar">
+    <button onclick="trocarPagina('inicio')">INÍCIO</button>
+    <button onclick="abrirSubmenu('submenu-faccoes')">FACÇÕES</button>
+    <button onclick="abrirSubmenu('submenu-vaults')">VAULTS</button>
+    <button onclick="trocarPagina('bestiario')">BESTIÁRIO</button>
+<button onclick="abrirSubmenu('submenu-special')">S.P.E.C.I.A.L</button>
+    <button onclick="trocarPagina('sistema')">SISTEMA</button>
+  </header>
+
+  <div id="submenu-faccoes" class="submenu-top">
+    <button onclick="trocarPagina('ncr')">NCR</button>
+    <button onclick="trocarPagina('mutants')">MUTANTS</button>
+    <button onclick="trocarPagina('enclave')">ENCLAVE</button>
+    <button onclick="trocarPagina('bos')">BROTHERHOOD</button>
+    <button onclick="trocarPagina('legion')">LEGION</button>
+    <button onclick="trocarPagina('railroad')">RAILROAD</button>
+    <button onclick="trocarPagina('minutemen')">MINUTEMEN</button>
+    <button onclick="trocarPagina('raiders')">RAIDERS</button>
+    <button onclick="trocarPagina('children')">CHILDREN OF ATOM</button>
+  </div>
+
+  <div id="submenu-vaults" class="submenu-top">
+    <button onclick="trocarPagina('vault13')">VAULT 13</button>
+    <button onclick="trocarPagina('vault111')">VAULT 111</button>
+    <button onclick="trocarPagina('vaulttec')">VAULT-TEC</button>
+  </div>
+
+  <div id="submenu-special" class="submenu-top">
+  <button onclick="trocarPagina('special_s')">S - SOBREVIVÊNCIA</button>
+  <button onclick="trocarPagina('special_p')">P - PERCEPÇÃO</button>
+  <button onclick="trocarPagina('special_e')">E - ENERGIA</button>
+  <button onclick="trocarPagina('special_c')">C - CARISMA</button>
+  <button onclick="trocarPagina('special_i')">I - INTELIGÊNCIA</button>
+  <button onclick="trocarPagina('special_a')">A - AGILIDADE</button>
+  <button onclick="trocarPagina('special_l')">L - LÁBIA</button>
+</div>
+
+  <main class="main-area">
+
+    <section class="pipboy-box">
+      <img src="assets/pipboy.png" class="pipboy-img">
+      <p class="blink">VAULT-BOY STATUS: ONLINE</p>
+    </section>
+
+    <section class="content">
+      <div class="status">
+
+        <div class="stat-card">
+          <div class="stat-label">
+            HP <span id="hp-text">80%</span>
+          </div>
+          <div class="bar">
+            <div class="bar-fill hp" id="hp-bar"></div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">
+            RAD <span id="rad-text">20%</span>
+          </div>
+          <div class="bar">
+            <div class="bar-fill rad" id="rad-bar"></div>
+          </div>
+        </div>
+
+        <div class="stat-card small">LVL 07</div>
+        <div class="stat-card small">CAPS 1250</div>
+
+      </div>
+
+      <h1 id="titulo">TERMINAL DA <VAULT-TEC></VAULT-TEC></h1>
+      <p id="texto" class="typing"></p>
+      <img id="special-img" class="special-img">
+      <div id="special-area" class="special"></div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  function mostrarImagem(imgSrc) {
+  const img = document.getElementById("special-img");
+
+  if (!imgSrc) {
+    img.style.display = "none";
+    return;
+  }
+
+  img.src = imgSrc;
+  img.style.display = "block";
+}
+document.body.classList.add("booting");
+
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+document.addEventListener("click", () => {
+  audioCtx.resume();
+});
+
+const paginas = {
+  inicio: {
+    titulo: "TERMINAL DA VAULT-TEC",
+    texto: "Bem-vindo ao banco de dados Vault-Tec. Acesso autorizado. Carregando arquivos do Ermo..."
+  },
+
+  ncr: {
+    titulo: "NCR",
+    texto: "A New California Republic tenta reconstruir a civilização com leis, exército e governo. Apesar de seu modus operandi mais agressivo, luta contra a corrupção, a buracracia e os perigos dos ermos para proteger todas as vitimas da guerra e de suas sequelas que deixaram no mundo."
+  },
+  mutants: {
+    titulo: "MUTANTS",
+    texto: "Criaturas alteradas pelo FEV. Fortes, resistentes e extremamente perigosas. Alguns mantêm consciência; outros são puro instinto."
+  },
+  enclave: {
+    titulo: "ENCLAVE",
+    texto: "Organização militar tecnológica formada por remanescentes do antigo governo dos Estados Unidos. Possuem armas avançadas e objetivos obscuros."
+  },
+  bos: {
+    titulo: "BROTHERHOOD OF STEEL",
+    texto: "Ordem militar dedicada a coletar e preservar tecnologia pré-guerra. Disciplina, armaduras potentes e fanatismo tecnológico definem sua presença."
+  },
+  legion: {
+    titulo: "CAESAR'S LEGION",
+    texto: "Império brutal inspirado em Roma Antiga. Baseado em força, escravidão, disciplina absoluta e dominação total dos inimigos."
+  },
+  railroad: {
+    titulo: "RAILROAD",
+    texto: "Organização secreta dedicada a libertar synths da escravidão. Operam nas sombras, usando códigos, disfarces e rotas ocultas."
+  },
+  minutemen: {
+    titulo: "MINUTEMEN",
+    texto: "Civis armados que defendem assentamentos e ajudam comunidades isoladas. Representam esperança em meio ao caos do Ermo."
+  },
+  raiders: {
+    titulo: "RAIDERS",
+    texto: "Bandos violentos que vivem de pilhagem, caos e sobrevivência. Cada grupo tem sua própria crueldade, estética e território."
+  },
+  children: {
+    titulo: "CHILDREN OF ATOM",
+    texto: "Seita religiosa que venera a radiação como manifestação divina. Para eles, o átomo é sagrado e a destruição é iluminação."
+  },
+  vault13: {
+    titulo: "VAULT 13",
+    texto: "Um dos Vaults mais conhecidos dos registros do Ermo. Seus arquivos permanecem fragmentados, mas sua importância histórica é enorme."
+  },
+  vault111: {
+    titulo: "VAULT 111",
+    texto: "Vault conhecido por experimentos criogênicos. Oficialmente, preservação humana. Na prática, observação científica de longo prazo."
+  },
+  vaulttec: {
+    titulo: "VAULT-TEC",
+    texto: "Corporação responsável pelos Vaults. Oficialmente: proteção. Extraoficialmente: experimentos sociais, biológicos e psicológicos."
+  },
+  bestiario: {
+    titulo: "BESTIÁRIO",
+    texto: "Deathclaws, necróticos, radbaratas, mutantes e aberrações radioativas. O Ermo está vivo — e quase tudo nele quer te matar."
+  },
+  sistema: {
+  titulo: "SISTEMA DE SOBREVIVÊNCIA",
+  texto: "Radiação, reputação, munição, fome, sede e ferimentos afetam sua jornada. Cada escolha altera sua chance de sobreviver."
+},
+
+special_s: {
+  titulo: "S - SOBREVIVÊNCIA",
+  texto: "Olá, Cidadão Exemplar! Você já parou para admirar a robustez das engrenagens que mantêm nossa Vault funcionando? Pois saiba que você também é uma peça fundamental dessa máquina! A Força é a medida da sua capacidade física bruta para interagir com o mundo ao seu redor. Para a Vault-Tec, um Habitante forte é sinônimo de eficiência logística! Este atributo define o quão pesado é o fardo que você consegue carregar — seja uma caixa cheia de suprimentos médicos vitais ou aquele entulho inconveniente que insiste em bloquear os corredores. Mas a Força não serve apenas para carregar coisas; ela garante que, quando as palavras falharem (o que esperamos que nunca aconteça!), você tenha o impacto necessário para resolver qualquer disputa física com... vigor!",
+},
+
+special_p: {
+  titulo: "P - PERCEPÇÃO",
+  texto: "Atenção, Habitante! No ambiente controlado e seguro da sua Vault, a curiosidade pode ter matado o gato, mas a Percepção mantém você vivo! Este atributo representa sua sintonização fina com o ambiente ao seu redor. Ser perceptivo significa ser o primeiro a notar aquele vazamento de gás sutil no Nível 3, ou identificar quem pegou o último rolo de papel higiênico antes mesmo dele sumir! Mas não para por aí: lá fora — naquele cenário hipotético e improvável que chamamos de 'exterior' — sua Percepção ajuda você a detectar ameaças antes que elas detectem você. Seja ajustando a mira do seu rifle de serviço com precisão cirúrgica ou notando aquela armadilha de pressão que algum vândalo deixou no caminho, seus sentidos são ferramentas de alta fidelidade. Fique de olho nos detalhes, pois a Vault-Tec está de olho em você!"
+},
+
+special_e: {
+  titulo: "E - ENERGIA",
+  texto: "Saudações, Habitante! Você já se perguntou por que alguns de seus vizinhos parecem tão... bem, dispostos, enquanto outros cansam só de carregar uma bandeja de Cram? Isso é a Energia em ação! Para a Vault-Tec, sua saúde é o nosso maior patrimônio (literalmente!). Este atributo mede a incrível capacidade do seu organismo de ignorar os pequenos 'incômodos' da vida moderna, como a fome persistente, a fadiga muscular e, é claro, aquela radiaçãozinha ambiente que todos aprendemos a amar. Um Habitante com alta Resistência é um Habitante que produz mais! Seja resistindo a doenças contagiosas ou suportando ferimentos que fariam um cidadão comum pedir folga, você é o pilar de aço da nossa sociedade subterrânea. Lembre-se: um corpo resistente é um corpo que sobrevive para ver o amanhã... e o relatório de amanhã!"
+},
+
+special_c: {
+  titulo: "C - CARISMA",
+  texto: "Saudações, Líder do Amanhã! Você já percebeu como uma palavra bem dita pode abrir portas mais rápido que um pé-de-cabra? Isso é o Carisma! Para a Vault-Tec, a coesão social é o tempero da sobrevivência. Este atributo representa sua capacidade magnética de encantar, liderar e, quando necessário, 'redirecionar' as intenções de outros indivíduos. Seja negociando preços mais justos com mercadores itinerantes (afinal, cada tampinha conta para a economia da Vault!) ou inspirando seus companheiros de equipe a darem o melhor de si em situações estressantes, o seu charme é uma ferramenta de precisão. Um Habitante carismático não precisa apenas de músculos ou armas; ele usa a diplomacia para transformar inimigos em aliados e obstáculos em oportunidades."
+},
+
+special_i: {
+  titulo: "I - INTELIGÊNCIA",
+  texto: "Saudações, Mente Brilhante! Você já olhou para um amontoado de fios e metal e viu não apenas lixo, mas uma oportunidade de progresso? Isso é a Inteligência! Para a Vault-Tec, o intelecto é o combustível que alimenta o motor da recuperação nacional. Este atributo representa sua habilidade superior de processar dados, compreender tecnologias complexas e dominar as artes da ciência e da estratégia. Seja aplicando primeiros socorros avançados para manter seus colegas de trabalho em plena operação, ou hackeando terminais antigos para extrair segredos valiosos da era pré-guerra, sua mente é sua arma mais afiada. Um Habitante inteligente não apenas sobrevive; ele otimiza! Você saberá exatamente como consertar aquele gerador crítico, como destilar substâncias químicas úteis ou como traçar o plano tático perfeito para evitar gastos desnecessários de munição."
+},
+
+special_a: {
+  titulo: "A - AGILIDADE",
+  texto: "Saudações, Atleta da Vault! Você já sentiu aquela vontade de realizar suas tarefas antes mesmo do café da manhã estar pronto? Isso é a sua Agilidade pedindo passagem! Para a Vault-Tec, a velocidade é a alma do progresso. Este atributo representa o seu refinamento motor, seus reflexos ultra-ajustados e a graça com que você navega pelos corredores (ou escombros!). Ser um Habitante ágil significa que você é o mestre da reação. Seja esquivando-se de um projétil inesperado com a leveza de uma pluma ou recarregando seu armamento de serviço em um piscar de olhos, você é a personificação da fluidez. Sua capacidade de se mover silenciosamente garante que você possa realizar 'inspeções surpresa' em qualquer ambiente sem ser detectado, mantendo a vantagem tática em todas as situações."
+},
+
+special_l: {
+  titulo: "L - LÁBIA DA SORTE",
+  texto: "Saudações, Sortudo! Você já sentiu que o universo conspirou para que aquela última bala encontrasse o alvo, ou que aquele baú enferrujado escondia exatamente o que você precisava? Isso não é coincidência, é a sua Sorte! Para a Vault-Tec, a Sorte é a variável 'X' que transforma um desastre estatístico em uma vitória triunfante. Este atributo representa aquela ajudinha invisível que faz os dados rolarem a seu favor quando a lógica diz o contrário. Um Habitante sortudo encontra as melhores sucatas, sobrevive a emboscadas impossíveis e, ocasionalmente, vê seus problemas se resolverem por 'puro acaso'."
+},
+}
+;
+
+let intervalo;
+
+function som(freq, duracao, volume, tipo = "square") {
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+
+  osc.type = tipo;
+  osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+  gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duracao);
+
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  osc.start();
+  osc.stop(audioCtx.currentTime + duracao);
+}
+
+function tocarClique() {
+  som(180, 0.08, 0.12, "square");
+  setTimeout(() => som(70, 0.05, 0.07, "triangle"), 45);
+}
+
+function tocarTecla() {
+  som(520, 0.025, 0.025, "square");
+}
+
+function tocarGlitch() {
+  for (let i = 0; i < 4; i++) {
+    setTimeout(() => {
+      som(120 + Math.random() * 500, 0.04, 0.035, "sawtooth");
+    }, i * 35);
+  }
+}
+
+function fecharSubmenus() {
+  document.querySelectorAll(".submenu-top").forEach(menu => {
+    menu.classList.remove("ativo");
+  });
+}
+
+function abrirSubmenu(id) {
+  tocarClique();
+
+  const submenu = document.getElementById(id);
+  const estavaAberto = submenu.classList.contains("ativo");
+
+  fecharSubmenus();
+
+  if (!estavaAberto) {
+    submenu.classList.add("ativo");
+  }
+}
+
+function digitarTexto(texto, comSom = true) {
+  clearInterval(intervalo);
+
+  const elemento = document.getElementById("texto");
+  elemento.textContent = "";
+
+  let i = 0;
+
+  intervalo = setInterval(() => {
+    elemento.textContent += texto[i];
+
+    if (comSom && i % 2 === 0) {
+      tocarTecla();
+    }
+
+    i++;
+
+    if (i >= texto.length) {
+      clearInterval(intervalo);
+    }
+  }, 35);
+}
+
+function trocarPagina(pagina) {
+  tocarClique();
+  tocarGlitch();
+  fecharSubmenus();
+
+  document.getElementById("titulo").textContent = paginas[pagina].titulo;
+  digitarTexto(paginas[pagina].texto, true);
+  mostrarImagem(paginas[pagina].imagem);
+}
+
+document.getElementById("titulo").textContent = paginas.inicio.titulo;
+digitarTexto(paginas.inicio.texto, false);
+
+function glitchBar(idTexto, idBarra, base, variacao, tipo) {
+  setInterval(() => {
+    const valor = base + Math.floor(Math.random() * variacao * 2 - variacao);
+    const valorLimitado = Math.max(0, Math.min(100, valor));
+
+    const texto = document.getElementById(idTexto);
+    const barra = document.getElementById(idBarra);
+    const card = barra.closest(".stat-card");
+
+    texto.textContent = valorLimitado + "%";
+    barra.style.width = valorLimitado + "%";
+
+    if (tipo === "hp") {
+      card.classList.toggle("glitch-alert", valorLimitado < 78);
+    }
+
+    if (tipo === "rad") {
+      card.classList.toggle("rad-alert", valorLimitado > 21);
+    }
+  }, 420);
+}
+
+glitchBar("hp-text", "hp-bar", 80, 7, "hp");
+glitchBar("rad-text", "rad-bar", 20, 5, "rad");
+
+const bootLinhas = [
+  "ROBCO INDUSTRIES UNIFIED OPERATING SYSTEM",
+  "COPYRIGHT 2075-2077 ROBCO INDUSTRIES",
+  "----------------------------------------",
+  "INITIALIZING PIP-BOY 3000...",
+  "CHECKING MEMORY... OK",
+  "LOADING VAULT-TEC DATABASE... OK",
+  "STARTING INTERFACE..."
+];
+
+function iniciarBoot() {
+  const boot = document.getElementById("boot-screen");
+  const output = document.getElementById("boot-output");
+
+  boot.classList.add("glitchando");
+
+  let linha = 0;
+  let letra = 0;
+  let textoFinal = "";
+
+  const intervaloBoot = setInterval(() => {
+    textoFinal += bootLinhas[linha][letra];
+    output.innerHTML = textoFinal.replace(/\n/g, "<br>");
+
+    letra++;
+
+    if (letra >= bootLinhas[linha].length) {
+      textoFinal += "\n";
+      linha++;
+      letra = 0;
+    }
+
+    if (linha >= bootLinhas.length) {
+      clearInterval(intervaloBoot);
+
+      boot.classList.remove("glitchando");
+      boot.classList.add("piscando");
+
+      setTimeout(() => {
+        boot.style.opacity = "0";
+
+        setTimeout(() => {
+          boot.style.display = "none";
+          document.body.classList.remove("booting");
+        }, 800);
+
+      }, 2000);
+    }
+  }, 35);
+}
+
+iniciarBoot();
+</script>
+
+</body>
+</html>

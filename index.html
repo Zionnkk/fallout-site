@@ -30,20 +30,20 @@
 
   <div id="submenu-faccoes" class="submenu-top">
     <span class="submenu-label">PRINCIPAIS</span>
-    <button onclick="trocarPagina('ncr')">NCR</button>
-    <button onclick="trocarPagina('enclave')">ENCLAVE</button>
-    <button onclick="trocarPagina('bos')">BROTHERHOOD</button>
-    <button onclick="trocarPagina('legion')">CAESAR LEGION</button>
-    <button onclick="trocarPagina('minutemen')">MINUTEMEN</button>
+    <button onclick="abrirFaccao('ncr')">NCR</button>
+    <button onclick="abrirFaccao('enclave')">ENCLAVE</button>
+    <button onclick="abrirFaccao('bos')">BROTHERHOOD</button>
+    <button onclick="abrirFaccao('legion')">CAESAR LEGION</button>
+    <button onclick="abrirFaccao('minutemen')">MINUTEMEN</button>
 
     <span class="submenu-label hostile-label">HOSTIS</span>
-    <button class="hostile-menu" onclick="trocarPagina('faccoes_hostis')">ARQUIVO HOSTIL</button>
-    <button class="hostile-menu" onclick="trocarPagina('raiders')">RAIDERS</button>
-    <button class="hostile-menu" onclick="trocarPagina('fiends')">FIENDS</button>
-    <button class="hostile-menu" onclick="trocarPagina('khans')">GREAT KHANS</button>
-    <button class="hostile-menu" onclick="trocarPagina('mutants')">SUPER MUTANTS</button>
-    <button class="hostile-menu" onclick="trocarPagina('children')">CHILDREN OF ATOM</button>
-    <button class="hostile-menu" onclick="trocarPagina('railroad')">RAILROAD</button>
+    <button class="hostile-menu" onclick="abrirFaccao('faccoes_hostis')">ARQUIVO HOSTIL</button>
+    <button class="hostile-menu" onclick="abrirFaccao('raiders')">RAIDERS</button>
+    <button class="hostile-menu" onclick="abrirFaccao('fiends')">FIENDS</button>
+    <button class="hostile-menu" onclick="abrirFaccao('khans')">GREAT KHANS</button>
+    <button class="hostile-menu" onclick="abrirFaccao('mutants')">SUPER MUTANTS</button>
+    <button class="hostile-menu" onclick="abrirFaccao('children')">CHILDREN OF ATOM</button>
+    <button class="hostile-menu" onclick="abrirFaccao('railroad')">RAILROAD</button>
   </div>
 
   <div id="submenu-vaults" class="submenu-top">
@@ -96,6 +96,12 @@
       </div>
 
       <h1 id="titulo">TERMINAL DA VAULT-TEC</h1>
+      <div id="update-box" class="update-box" onclick="abrirFaccao('minutemen')">
+  <span class="update-tag">NOVA ATUALIZAÇÃO</span>
+  <strong>Facções atualizadas</strong>
+  <p>Sistema de atributos S.P.E.C.I.A.L adicionado às facções.</p>
+  <small>&gt; CLIQUE PARA ACESSAR</small>
+</div>
       <img id="faction-img" class="faction-img" alt="Ícone da facção">
       <p id="texto" class="typing"></p>
       <div id="bestiario-controle" class="bestiario-controle"></div>
@@ -120,75 +126,215 @@ const paginas = {
     titulo: "NCR",
     imagem: "assets/imagens/ncr.png",
     tipo: "principal",
-    texto: `== FACÇÃO PRINCIPAL ==
+    texto: `== DOSSIÊ DE FACÇÃO // NEW CALIFORNIA REPUBLIC ==
 
-A New California Republic tenta reconstruir a civilização com leis, exército e governo. Apesar de seu modus operandi mais agressivo, luta contra a corrupção, a burocracia e os perigos do Ermo para proteger as vítimas da guerra e de suas sequelas.
+''A lei voltou a caminhar pela Wasteland. Ela usa botas militares, carrega uma bandeira gasta e cobra impostos.''
 
-Influência: Alta
-> Possui presença militar, postos avançados e controle político crescente.
+A New California Republic, também conhecida como NCR, tenta reconstruir a civilização com governo, exército, tribunais e a ideia perigosa de transformar ruínas em república. Para muitos civis, a NCR pode se considerar um sinal de esperança. Já, para outros, é apenas mais um poder tentando subir no controle e no caos das terras esquecidas.
 
-Relação com o jogador: Variável
-> Pode ser aliada, inimiga ou apenas mais uma bandeira tentando controlar o Ermo.`
+A expansão cobra seu preço. Onde o urso de duas cabeças chega, chegam também burocratas, patrulhas, recrutamento, corrupção e disputas políticas.`
+
+  },
+
+  ncr_atributos: {
+    titulo: "NCR // S.P.E.C.I.A.L",
+    imagem: "assets/imagens/ncr.png",
+    tipo: "principal",
+    texto: `== PERFIL S.P.E.C.I.A.L ==
+
+FORÇA: 4
+> Exército numeroso, treinado e bem distribuído, mas nem sempre equipado de forma ideal.
+
+PERCEPÇÃO: 4
+> Patrulhas, reconhecimento territorial e inteligência militar mantêm a NCR atenta ao mapa.
+
+RESISTÊNCIA: 5
+> Aguenta guerras longas, perdas políticas e campanhas em territórios hostis.
+
+CARISMA: 5
+> Sua imagem de democracia inspira alguns e irrita outros.
+
+INTELIGÊNCIA: 7
+> Administração, logística, engenharia e doutrina militar sustentam sua expansão.
+
+AGILIDADE: 4
+> Funciona melhor como força organizada do que como grupo rápido e flexível.
+
+SORTE: 3
+> A NCR depende mais de estrutura do que de acaso. Quando erra, erra em escala nacional.`
   },
 
   enclave: {
     titulo: "ENCLAVE",
     imagem: "assets/imagens/enclave.png",
     tipo: "principal",
-    texto: `== FACÇÃO PRINCIPAL ==
+    texto: `== DOSSIÊ DE FACÇÃO // ENCLAVE ==
 
-Organização militar tecnológica formada por remanescentes do antigo governo dos Estados Unidos. Possuem armas avançadas, armaduras potentes e objetivos frequentemente obscuros.
+''Eles não querem reconstruir a América. Eles querem a América.''
 
-Influência: Alta
-> Poucos em número, mas extremamente perigosos por sua tecnologia.
+O Enclave é uma organização militar e tecnológica formada por remanescentes do antigo governo dos Estados Unidos. Com com armaduras avançadas, protocolos rígidos e uma visão de pureza que torna qualquer sobrevivente comum um problema estatístico.
 
-Relação com o jogador: Instável
-> O Enclave raramente negocia de igual para igual.`
+O Enclave é uma força de elite, não apenas um grupinho de rebeldes com armaduras. São detentores do maior exercito e força armada dos Ermos. Afinal, são antigos soldados treinados pelo governo estadunidense. Criadores de armas biológicas e de vestes potentes. Eles não querem só controlar os assentamentos. Eles querem purificar todo o que há de errado nesse mundo, e tudo que não seja eles, é errado.
+
+`
+  },
+
+  enclave_atributos: {
+    titulo: "ENCLAVE // S.P.E.C.I.A.L",
+    imagem: "assets/imagens/enclave.png",
+    tipo: "principal",
+    texto: `== PERFIL S.P.E.C.I.A.L ==
+
+FORÇA: 6
+> São antigos soldados treinados.
+
+PERCEPÇÃO: 3
+> Tecnologia avançada compensa a falta de atenção a detalhes menores.
+
+RESISTÊNCIA: 6
+> Treinamento militar e suporte científico garantem alta sobrevivência em combate.
+
+CARISMA: 2
+> Sua visão de pureza e controle não é exatamente um convite para conversas amigáveis.
+
+INTELIGÊNCIA: 3
+> Visão limitada do mundo real. Foco no controle, mas falta de atenção nas complexidades.
+
+AGILIDADE: 5
+> Fortes e eficientes, mas limitados pelo peso e pela rigidez.
+
+SORTE: 1
+> O Enclave confia em planos. O problema é quando o Ermo se recusa a obedecer.`
   },
 
   bos: {
     titulo: "BROTHERHOOD OF STEEL",
     imagem: "assets/imagens/brotherhood.jpg",
     tipo: "principal",
-    texto: `== FACÇÃO PRINCIPAL ==
+    texto: `== DOSSIÊ DE FACÇÃO // BROTHERHOOD OF STEEL ==
 
-Ordem militar dedicada a coletar e preservar tecnologia pré-guerra. Disciplina, armaduras potentes e fanatismo tecnológico definem sua presença.
+''Tecnologia não é liberdade. Tecnologia é poder. E poder, segundo eles, deve ficar trancado atrás de aço.''
 
-Influência: Alta
-> Controlam tecnologia que poderia salvar ou condenar assentamentos inteiros.
+A Brotherhood of Steel é uma ordem militar dedicada a coletar, preservar e controlar tecnologia pré-guerra. Seus cavaleiros caminham pelo Ermo como cruzados blindados, protegendo relíquias do passado de mãos consideradas indignas.
 
-Relação com o jogador: Condicional
-> Respeitam força, utilidade e obediência. Não necessariamente nessa ordem.`
+Para alguns, são guardiões. Para outros, saqueadores com discurso nobre e armadura brilhante.`
+
+  },
+
+
+  bos_atributos: {
+    titulo: "BROTHERHOOD // S.P.E.C.I.A.L",
+    imagem: "assets/imagens/brotherhood.jpg",
+    tipo: "principal",
+    texto: `== PERFIL S.P.E.C.I.A.L ==
+
+FORÇA: 5
+> A irmandade é brutal, mas não técnica. Eles dependem de armaduras e armas poderosas, mas não são os mais fortes fisicamente.
+
+PERCEPÇÃO: 4
+> Bons em reconhecer tecnologia e ameaças estratégicas, mas às vezes cegos pelo próprio dogma.
+
+RESISTÊNCIA: 6
+> Suportam combates prolongados graças à treinamento e hierarquia rígida.
+
+CARISMA: 4
+> Inspiram respeito, mas raramente afeto.
+
+INTELIGÊNCIA: 4
+> Conhecimento técnico, manutenção e recuperação tecnológica são sua base.
+
+AGILIDADE: 3
+> Poderosos, porém pesados. A Irmandade avança é um tanque, não uma sombra.
+
+SORTE: 5
+> Sobrevivem por preparo. Quando improvisam, geralmente é porque algo explodiu antes.`
   },
 
   legion: {
     titulo: "CAESAR'S LEGION",
     imagem: "assets/imagens/legion.jpg",
     tipo: "principal",
-    texto: `== FACÇÃO PRINCIPAL ==
+    texto: `== DOSSIÊ DE FACÇÃO // CAESAR'S LEGION ==
 
-Império brutal inspirado em Roma Antiga. Baseado em força, escravidão, disciplina absoluta e dominação total dos inimigos.
+''Viva o César!''
 
-Influência: Alta
-> Onde a Legião chega, a escolha costuma desaparecer.
+A Caesar's Legion é um império brutal inspirado em Roma Antiga, construído sobre conquista, escravidão, obediência absoluta e guerra. A Legião marcha com sua fé absurda em seu líder, Caesar, e sua visão ''distópica''' de ordem.
 
-Relação com o jogador: Perigosa
-> Aliança com a Legião cobra um preço moral alto.`
+Sua força nasce da disciplina, dos gladiadores, da possível escravidão...`
+
+  },
+
+  legion_atributos: {
+    titulo: "CAESAR LEGION // S.P.E.C.I.A.L",
+    imagem: "assets/imagens/legion.jpg",
+    tipo: "principal",
+    texto: `== PERFIL S.P.E.C.I.A.L ==
+
+FORÇA: 5
+> Guerreiros treinados para combate direto e dominação física.
+
+PERCEPÇÃO: 5
+> Bons caçadores de fraquezas humanas, mas menos dependentes de tecnologia avançada.
+
+RESISTÊNCIA: 4
+> Suportam dor, mas no fundo, são humanos. E humanos sangram.
+
+CARISMA: 1
+> Talvez sua maior fraqueza. A legião é mais temida do que respeitada. E, sem seu líder diplomata, são pedras.
+
+INTELIGÊNCIA: 2
+> Estratégia imperial forte, mas desprezo por certos avanços tecnológicos limita suas opções.
+
+AGILIDADE: 6
+> Rápidos em ataques, emboscadas e pressão.
+
+SORTE: 3
+> A Legião cria sua própria sorte pela violência. Mas impérios também sangram.`
   },
 
   minutemen: {
     titulo: "MINUTEMEN",
     imagem: "assets/imagens/minutemens.jpg",
     tipo: "principal",
-    texto: `== FACÇÃO PRINCIPAL ==
+    texto: `[MANIFESTO DOS MINUTEMEN: A UNIÃO FAZ A FORÇA]
 
-Civis armados que defendem assentamentos e ajudam comunidades isoladas. Representam esperança em meio ao caos do Ermo.
+''Olhe ao seu redor, soldado. O que você vê? Ruínas? Medo? Eu vejo uma oportunidade. Os Minutemen não nasceram em laboratórios, mas em um grito de socorro.''
 
-Influência: Média
-> Crescem com apoio popular, não com medo.
+Os Minutemen são uma milícia de voluntários dedicada a proteger os indefesos e restaurar a ordem civil. Com uma estrutura descentralizada, operam em comunidades locais, defendendo inocentes contra ameaças e promovendo cooperação entre sobreviventes.
 
-Relação com o jogador: Geralmente amistosa
+Influência: Comunitária
+> Crescem onde há confiança, rádio funcionando e alguém disposto a responder pedidos de ajuda.
+
+Relação com o jogador: Aliada
 > Para eles, proteger o povo ainda significa alguma coisa.`
+  },
+
+  minutemen_atributos: {
+    titulo: "MINUTEMEN // S.P.E.C.I.A.L",
+    imagem: "assets/imagens/minutemens.jpg",
+    tipo: "principal",
+    texto: `== PERFIL S.P.E.C.I.A.L ==
+
+FORÇA: 4
+> Milícia popular. Não são brutais, mas sabem segurar uma linha defensiva.
+
+PERCEPÇÃO: 5
+> Sentinelas, vigias e patrulheiros atentos às necessidades dos assentamentos.
+
+RESISTÊNCIA: 5
+> Aguentam o tranco porque desistir significaria abandonar o próprio povo.
+
+CARISMA: 8
+> O coração da facção. A união é sua arma mais importante.
+
+INTELIGÊNCIA: 5
+> Sabem construir, improvisar defesas e manter comunidades funcionando.
+
+AGILIDADE: 4
+> Treinamento simples, direto e funcional.
+
+SORTE: 5
+> Quando o povo se une, até o Ermo parece hesitar por um segundo.`
   },
 
   faccoes_hostis: {
@@ -197,100 +343,301 @@ Relação com o jogador: Geralmente amistosa
     tipo: "hostil",
     texto: `== ARQUIVO DE AMEAÇAS ORGANIZADAS ==
 
-Facções hostis são grupos que operam contra a estabilidade dos assentamentos, contra os interesses das facções principais ou contra qualquer pessoa que pareça carregar suprimentos.
+Nem todo grupo no Ermo quer reconstruir. Alguns prosperam justamente porque tudo continua quebrado.
 
-— BANDOS —
-Raiders, Fiends e grupos de saqueadores independentes.
+Facções hostis operam contra a estabilidade dos assentamentos, contra os interesses das facções principais ou contra qualquer pessoa que pareça carregar suprimentos. Algumas são bandos violentos; outras são culturas inteiras moldadas por guerra, vício, mutação ou fanatismo.
 
-— TRIBAIS —
-Great Khans e clãs violentos de território variável.
+Classificação: Variável
+> Nem todo grupo hostil nasce igual. Mas todos exigem cautela.
 
-— MUTANTES —
-Super Mutants e grupos contaminados por FEV.
-
-— CULTISTAS —
-Children of Atom e seitas radioativas.
-
-— CLANDESTINOS —
-Railroad e células secretas. Nem sempre são inimigos, mas podem se tornar hostis conforme o alinhamento do jogador.`
+Protocolo Vault-Tec:
+> Identifique bandeiras, símbolos, comportamento de patrulha e sinais de território antes de iniciar contato.`
   },
 
-  mutants: {
-    titulo: "SUPER MUTANTS",
-    imagem: "assets/imagens/mutants.jpg",
+  faccoes_hostis_atributos: {
+    titulo: "FACÇÕES HOSTIS // MÉTRICAS",
+    imagem: "assets/imagens/warning.png",
     tipo: "hostil",
-    texto: `== FACÇÃO HOSTIL // MUTANTES ==
+    texto: `== PERFIL GERAL DE AMEAÇA ==
 
-Criaturas alteradas pelo FEV. Fortes, resistentes e extremamente perigosas. Alguns mantêm consciência; outros são puro instinto.
+FORÇA: 5
+> Variam de saqueadores frágeis até mutantes capazes de destruir barricadas.
 
-Categoria: Mutantes
-Ameaça: Alta
-> A diplomacia é possível em casos raros. A fuga costuma ser mais confiável.`
+PERCEPÇÃO: 3
+> Grupos hostis costumam conhecer bem o próprio território.
+
+RESISTÊNCIA: 2
+> Sobrevivem pela adaptação, violência e ausência completa de saneamento.
+
+CARISMA: 3
+> Liderança geralmente baseada em medo, vício, culto ou brutalidade.
+
+INTELIGÊNCIA: 1
+> Alguns planejam. Outros apenas gritam e atiram.
+
+AGILIDADE: 3
+> Emboscadas, fugas e ataques rápidos são comuns e previsíveis.
+
+SORTE: 1
+> A sorte deles normalmente acaba quando encontram alguém mais preparado.`
   },
 
   raiders: {
     titulo: "RAIDERS",
     imagem: "assets/imagens/raiders.png",
     tipo: "hostil",
-    texto: `== FACÇÃO HOSTIL // BANDOS ==
+    texto: `== FACÇÃO HOSTIL // RAIDERS ==
 
-Bandos violentos que vivem de pilhagem, caos e sobrevivência. Cada grupo tem sua própria crueldade, estética e território.
+Raiders são bandos violentos que vivem de pilhagem, intimidação e caos. Cada grupo possui estética própria, território próprio e uma interpretação muito pessoal do conceito de propriedade.
+
+Não formam uma nação. Formam um problema repetido em vários sotaques.
 
 Categoria: Bandos
 Ameaça: Média/Alta
-> Sozinhos são problema. Em grupo, são uma crise logística armada.`
+> Sozinhos são problema. Em grupo, são uma crise.`
+  },
+
+  raiders_atributos: {
+    titulo: "RAIDERS // S.P.E.C.I.A.L",
+    imagem: "assets/imagens/raiders.png",
+    tipo: "hostil",
+    texto: `== PERFIL S.P.E.C.I.A.L ==
+
+FORÇA: 4
+> Violentos o suficiente para dominar viajantes e pequenos assentamentos.
+
+PERCEPÇÃO: 3
+> Atentos a presas fáceis, mas pouco disciplinados.
+
+RESISTÊNCIA: 5
+> Vivem em condições ruins e ainda assim continuam de pé.
+
+CARISMA: 2
+> Medo não é liderança, mesmo quando funciona por alguns minutos.
+
+INTELIGÊNCIA: 2
+> Improviso agressivo, armadilhas simples e péssimas decisões em sequência.
+
+AGILIDADE: 5
+> Ataques rápidos, fugas covardes e emboscadas sujas.
+
+SORTE: 2
+> Muitos só sobrevivem porque o Ermo tem vítimas demais e munição de menos.`
   },
 
   fiends: {
     titulo: "FIENDS",
     imagem: "assets/imagens/fiends.png",
     tipo: "hostil",
-    texto: `== FACÇÃO HOSTIL // BANDOS ==
+    texto: `== FACÇÃO HOSTIL // FIENDS ==
 
-Drogados violentos, imprevisíveis e extremamente agressivos. Dominam áreas devastadas pela força, pelo medo e pela completa ausência de bom senso.
+Os Fiends são saqueadores dominados por drogas, violência e imprevisibilidade. Controlam áreas devastadas pela força, pelo medo e pela completa ausência de bom senso.
+
+Eles não apenas atacam. Eles contaminam o ambiente ao redor com caos.
 
 Categoria: Bandos
 Ameaça: Alta
 > Recomendação Vault-Tec: não negociar com pessoas que decoram paredes com ossos.`
   },
 
+  fiends_atributos: {
+    titulo: "FIENDS // S.P.E.C.I.A.L",
+    imagem: "assets/imagens/fiends.png",
+    tipo: "hostil",
+    texto: `== PERFIL S.P.E.C.I.A.L ==
+
+FORÇA: 5
+> Agressividade extrema compensa a falta de técnica.
+
+PERCEPÇÃO: 3
+> Imprevisíveis, mas frequentemente distraídos por vício e delírio.
+
+RESISTÊNCIA: 6
+> Tolerância absurda a dor, ferimentos e escolhas médicas questionáveis.
+
+CARISMA: 1
+> Qualquer conversa com um Fiend já começou tarde demais.
+
+INTELIGÊNCIA: 2
+> Estratégia limitada. Caos ilimitado.
+
+AGILIDADE: 4
+> Movem-se rápido comparado a outros grupos hostís, mas não são os mais ágeis.
+
+SORTE: 3
+> A sorte dos Fiends é estatisticamente curta.`
+  },
+
   khans: {
     titulo: "GREAT KHANS",
     imagem: "assets/imagens/khans.jpeg",
     tipo: "hostil",
-    texto: `== FACÇÃO HOSTIL // TRIBAIS ==
+    texto: `== FACÇÃO HOSTIL // GREAT KHANS ==
 
-Clã tribal com forte cultura de sobrevivência, tradição e violência territorial. Não são apenas saqueadores: são uma sociedade endurecida pelo Ermo.
+Os Great Khans são um clã tribal com forte cultura de sobrevivência, tradição e violência territorial. Não são apenas saqueadores: são uma sociedade.
+
+Podem negociar, guerrear ou sumir no horizonte antes que você entenda qual dos três aconteceu.
 
 Categoria: Tribais
 Ameaça: Média
 > Podem ser inimigos, aliados temporários ou uma péssima ideia em forma de motocicleta.`
   },
 
+  khans_atributos: {
+    titulo: "GREAT KHANS // S.P.E.C.I.A.L",
+    imagem: "assets/imagens/khans.jpeg",
+    tipo: "hostil",
+    texto: `== PERFIL S.P.E.C.I.A.L ==
+
+FORÇA: 5
+> Clã resistente, acostumado a conflitos territoriais.
+
+PERCEPÇÃO: 5
+> Bons em leitura de terreno, rotas e ameaças externas.
+
+RESISTÊNCIA: 5
+> Cultura de sobrevivência forjada por perseguição e guerra.
+
+CARISMA: 3
+> Lealdade tribal forte, mas difícil de traduzir em diplomacia estável.
+
+INTELIGÊNCIA: 3
+> Conhecem comércio, drogas, rotas e política de clã.
+
+AGILIDADE: 5
+> Mobilidade e ataques rápidos fazem parte de sua identidade.
+
+SORTE: 3
+> Sobrevivem há muito tempo, mas quase sempre perto da próxima tragédia.`
+  },
+
+  mutants: {
+    titulo: "SUPER MUTANTS",
+    imagem: "assets/imagens/mutants.jpg",
+    tipo: "hostil",
+    texto: `== FACÇÃO HOSTIL // SUPER MUTANTS ==
+
+Super Mutants são criaturas alteradas pelo FEV. Fortes, resistentes e extremamente perigosas. Alguns mantêm consciência e organização; outros são puro instinto, raiva e músculo.
+
+Quando formam grupos, deixam de ser encontros aleatórios e viram ameaça territorial.
+
+Categoria: Mutantes
+Ameaça: Alta
+> A diplomacia é possível em casos raros. A fuga costuma ser mais confiável.`
+  },
+
+  mutants_atributos: {
+    titulo: "SUPER MUTANTS // S.P.E.C.I.A.L",
+    imagem: "assets/imagens/mutants.jpg",
+    tipo: "hostil",
+    texto: `== PERFIL S.P.E.C.I.A.L ==
+
+FORÇA: 9
+> Capazes de esmagar portas, ossos e expectativas otimistas.
+
+PERCEPÇÃO: 4
+> Nem sempre sutis, mas perigosos quando percebem sua presença.
+
+RESISTÊNCIA: 9
+> Absorvem munição com dedicação quase patriótica.
+
+CARISMA: 2
+> Liderança geralmente baseada em tamanho, grito e capacidade de arremesso.
+
+INTELIGÊNCIA: 2
+> Varia muito. Alguns pensam; outros apenas quebram a sua espinha.
+
+AGILIDADE: 2
+> Não são os mais rápidos, mas compensam chegando com força.
+
+SORTE: 2
+> Sorte deles: nasceram tanques. Azar seu: encontrou um.`
+  },
+
   children: {
     titulo: "CHILDREN OF ATOM",
     imagem: "assets/imagens/atom.png",
     tipo: "hostil",
-    texto: `== FACÇÃO HOSTIL // CULTISTAS ==
+    texto: `== FACÇÃO HOSTIL // CHILDREN OF ATOM ==
 
-Seita religiosa que venera a radiação como manifestação divina. Para eles, o átomo é sagrado e a destruição é iluminação.
+Os Children of Atom são uma seita religiosa que venera a radiação como manifestação divina. Para eles, o átomo é sagrado, a divisão é iluminação e a sobrevivência em zonas irradiadas é sinal de bênção.
+
+Nem todo membro é agressivo, mas fé fanática e material radioativo formam uma combinação ruim para visitantes.
 
 Categoria: Cultistas
 Ameaça: Média
 > O problema não é apenas a radiação. É a convicção com que eles caminham até ela.`
   },
 
+  children_atributos: {
+    titulo: "CHILDREN OF ATOM // S.P.E.C.I.A.L",
+    imagem: "assets/imagens/atom.png",
+    tipo: "hostil",
+    texto: `== PERFIL S.P.E.C.I.A.L ==
+
+FORÇA: 4
+> Nem sempre fisicamente dominantes, mas perigosos quando armados e convictos.
+
+PERCEPÇÃO: 7
+> Bons em vigiar santuários, zonas irradiadas e intrusos.
+
+RESISTÊNCIA: 4
+> Tolerância à radiação muito acima do aceitável para qualquer manual médico.
+
+CARISMA: 6
+> Fé compartilhada cria coesão intensa e obediência ritual.
+
+INTELIGÊNCIA: 4
+> Misturam conhecimento prático de radiação com interpretações religiosas perigosas.
+
+AGILIDADE: 3
+> Movimento comum, mas operam bem em ambientes onde outros enfraquecem.
+
+SORTE: 6
+> Sobreviver onde tudo brilha no escuro exige algum tipo de milagre. Ou mutação.`
+  },
+
   railroad: {
     titulo: "RAILROAD",
     imagem: "assets/imagens/railroad.png",
     tipo: "hostil",
-    texto: `== FACÇÃO CLANDESTINA // HOSTILIDADE VARIÁVEL ==
+    texto: `== FACÇÃO CLANDESTINA // RAILROAD ==
 
-Organização secreta dedicada a libertar synths da escravidão. Operam nas sombras, usando códigos, disfarces e rotas ocultas.
+A Railroad é uma organização secreta dedicada a libertar synths da escravidão. Operam nas sombras, usando códigos, disfarces, células pequenas e rotas ocultas.
+
+Não são necessariamente vilões, mas organizações clandestinas raramente avisam quando você virou obstáculo.
 
 Categoria: Clandestinos
 Ameaça: Variável
-> Não são necessariamente vilões. Mas se seus objetivos entrarem em conflito, eles somem antes que você entenda quem apertou o gatilho.`
+> Se seus objetivos entrarem em conflito, eles somem antes que você entenda quem apertou o gatilho.`
+  },
+
+  railroad_atributos: {
+    titulo: "RAILROAD // S.P.E.C.I.A.L",
+    imagem: "assets/imagens/railroad.png",
+    tipo: "hostil",
+    texto: `== PERFIL S.P.E.C.I.A.L ==
+
+FORÇA: 3
+> Pequenos em número e pouco focados em confronto direto.
+
+PERCEPÇÃO: 8
+> Vigilância, códigos e leitura de risco são essenciais para sobreviverem.
+
+RESISTÊNCIA: 4
+> Células frágeis, mas difíceis de eliminar completamente.
+
+CARISMA: 6
+> Sua causa atrai aliados dispostos a arriscar tudo.
+
+INTELIGÊNCIA: 8
+> Operações secretas, criptografia, infiltração e redes de fuga.
+
+AGILIDADE: 4
+> Rápidos, discretos e difíceis de capturar.
+
+SORTE: 6
+> Quando um plano dá errado, geralmente já existe outro túnel.`
   },
 
   vault13: {
@@ -501,6 +848,8 @@ Ameaça: 10/10
 let intervalo;
 let animacoesTextoAtivas = true;
 let paginaBestiario = 1;
+let faccaoAtual = null;
+let paginaFaccao = 1;
 
 function som(freq, duracao, volume, tipo = "square") {
   if (audioCtx.state === "suspended") return;
@@ -642,8 +991,47 @@ function mostrarControleBestiario() {
   `;
 }
 
+
+function abrirFaccao(nome) {
+  faccaoAtual = nome;
+  paginaFaccao = 1;
+  trocarPagina(nome, true);
+  mostrarControleFaccao();
+}
+
+function alternarPaginaFaccao() {
+  if (!faccaoAtual) return;
+
+  if (paginaFaccao === 1) {
+    paginaFaccao = 2;
+    trocarPagina(`${faccaoAtual}_atributos`, true);
+  } else {
+    paginaFaccao = 1;
+    trocarPagina(faccaoAtual, true);
+  }
+
+  mostrarControleFaccao();
+}
+
+function mostrarControleFaccao() {
+  const controle = document.getElementById("bestiario-controle");
+
+  controle.style.display = "flex";
+  controle.innerHTML = `
+    <button onclick="alternarPaginaFaccao()" class="page-arrow blink-arrow">
+      ${paginaFaccao === 1 ? ">" : "<"}
+    </button>
+    <span>PÁGINA ${paginaFaccao}/2</span>
+  `;
+}
+
 function trocarPagina(pagina, manterControleBestiario = false) {
   if (!paginas[pagina]) return;
+
+  const updateBox = document.getElementById("update-box");
+if (updateBox) {
+  updateBox.style.display = pagina === "inicio" ? "block" : "none";
+}
 
   const controleBestiario = document.getElementById("bestiario-controle");
   if (controleBestiario && !manterControleBestiario) controleBestiario.style.display = "none";

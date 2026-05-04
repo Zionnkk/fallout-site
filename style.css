@@ -11,11 +11,19 @@
   --red: #ff3333;
   --red-soft: rgba(255, 51, 51, 0.14);
   --amber: #ffb84d;
+  --amber-soft: rgba(255, 184, 77, 0.16);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
-  background: var(--bg);
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at center, rgba(57, 255, 20, 0.04), transparent 45%),
+    var(--bg);
   color: var(--green);
   font-family: "Courier New", monospace;
   overflow: hidden;
@@ -82,13 +90,14 @@ body.sem-animacoes *::after {
   gap: 12px;
   border: 2px solid var(--green);
   padding: 15px;
-  box-shadow: 0 0 20px var(--green);
+  box-shadow: 0 0 20px var(--green), inset 0 0 18px rgba(57, 255, 20, 0.08);
   background: var(--green-panel-strong);
 }
 
 .topbar button,
 .submenu-top button,
-.anim-toggle {
+.anim-toggle,
+.page-arrow {
   background: transparent;
   color: var(--green);
   border: 1px solid var(--green);
@@ -96,12 +105,13 @@ body.sem-animacoes *::after {
   font-family: inherit;
   font-size: 16px;
   text-shadow: 0 0 8px var(--green);
-  transition: 0.15s;
+  transition: 0.15s ease;
 }
 
 .topbar button:hover,
 .submenu-top button:hover,
-.anim-toggle:hover {
+.anim-toggle:hover,
+.page-arrow:hover {
   background: var(--green);
   color: var(--bg);
   box-shadow: 0 0 15px var(--green);
@@ -118,11 +128,11 @@ body.sem-animacoes *::after {
 }
 
 .submenu-top.ativo {
-  max-height: 420px;
+  max-height: 480px;
   opacity: 1;
   border: 1px solid var(--green);
   padding: 12px;
-  box-shadow: 0 0 15px var(--green);
+  box-shadow: 0 0 15px var(--green), inset 0 0 20px rgba(57, 255, 20, 0.07);
   background: rgba(0, 25, 0, 0.55);
 }
 
@@ -166,7 +176,7 @@ body.sem-animacoes *::after {
   width: 320px;
   border: 2px solid var(--green);
   padding: 20px;
-  box-shadow: 0 0 25px var(--green);
+  box-shadow: 0 0 25px var(--green), inset 0 0 22px rgba(57, 255, 20, 0.07);
   background: var(--green-panel);
   text-align: center;
   overflow-y: auto;
@@ -208,7 +218,7 @@ body.sem-animacoes *::after {
   flex: 1;
   border: 2px solid var(--green);
   padding: 30px;
-  box-shadow: 0 0 25px var(--green);
+  box-shadow: 0 0 25px var(--green), inset 0 0 26px rgba(57, 255, 20, 0.07);
   background: var(--green-panel);
   overflow-y: auto;
   position: relative;
@@ -288,16 +298,17 @@ body.sem-animacoes *::after {
 }
 
 h1 {
-  font-size: 38px;
+  font-size: clamp(28px, 4vw, 38px);
   text-shadow: 0 0 12px var(--green);
-  margin-bottom: 16px;
+  margin: 0 0 16px 0;
+  letter-spacing: 1px;
 }
 
 .typing,
 #texto {
   font-size: 22px;
   line-height: 1.6;
-  max-width: 900px;
+  max-width: 980px;
   white-space: pre-line;
 }
 
@@ -369,8 +380,8 @@ h1 {
   pointer-events: none;
   background: repeating-linear-gradient(
     to bottom,
-    rgba(255,255,255,0.04),
-    rgba(255,255,255,0.04) 1px,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.04) 1px,
     transparent 1px,
     transparent 4px
   );
@@ -389,28 +400,24 @@ h1 {
   display: none;
   align-items: center;
   gap: 15px;
-  margin-top: 25px;
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px dashed rgba(57, 255, 20, 0.65);
 }
 
 .page-arrow {
-  width: 55px;
-  height: 45px;
-  background: transparent;
-  color: var(--green);
-  border: 1px solid var(--green);
-  font-family: "Courier New", monospace;
+  width: 58px;
+  height: 46px;
+  padding: 0;
   font-size: 26px;
-  text-shadow: 0 0 8px var(--green);
-}
-
-.page-arrow:hover {
-  background: var(--green);
-  color: var(--bg);
-  box-shadow: 0 0 15px var(--green);
 }
 
 .bestiario-controle span {
+  padding: 10px 14px;
+  border: 1px solid rgba(57, 255, 20, 0.55);
+  background: rgba(57, 255, 20, 0.06);
   text-shadow: 0 0 8px var(--green);
+  letter-spacing: 1px;
 }
 
 .blink-arrow {
@@ -492,12 +499,12 @@ h1 {
     box-shadow: 0 0 12px var(--green);
   }
   50% {
-    opacity: 0.3;
+    opacity: 0.35;
     box-shadow: 0 0 3px var(--green);
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   body {
     overflow: auto;
   }
@@ -521,6 +528,12 @@ h1 {
     max-width: 240px;
   }
 
+  .content {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 768px) {
   .topbar button,
   .submenu-top button {
     flex: 1 1 auto;
@@ -534,12 +547,13 @@ h1 {
     margin: 4px 0;
   }
 
-  .content {
-    padding: 18px;
+  .status {
+    gap: 10px;
   }
 
-  h1 {
-    font-size: 28px;
+  .stat-card {
+    min-width: 130px;
+    flex: 1;
   }
 
   .typing,
@@ -551,4 +565,39 @@ h1 {
     width: 90px;
     height: 90px;
   }
+
+  .bestiario-controle {
+    flex-wrap: wrap;
+  }
+}
+.update-box {
+  border: 1px solid var(--amber);
+  color: var(--amber);
+  padding: 14px 16px;
+  margin: 0 0 22px 0;
+  max-width: 620px;
+  background: var(--amber-soft);
+  box-shadow: 0 0 14px var(--amber);
+  text-shadow: 0 0 8px var(--amber);
+  cursor: crosshair;
+  transition: 0.2s ease;
+}
+
+.update-box:hover {
+  background: var(--amber);
+  color: var(--bg);
+  box-shadow: 0 0 24px var(--amber);
+  transform: translateY(-2px);
+}
+
+.update-box p {
+  margin: 8px 0;
+}
+
+.update-tag {
+  display: inline-block;
+  border: 1px solid var(--amber);
+  padding: 4px 8px;
+  margin-bottom: 8px;
+  font-size: 13px;
 }

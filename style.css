@@ -570,14 +570,23 @@ h1 {
     flex-wrap: wrap;
   }
 }
+
+
+/* NOTIFICAÇÕES DA PÁGINA INICIAL */
+.updates-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0 0 24px 0;
+  max-width: 760px;
+}
+
 .update-box {
   border: 1px solid var(--amber);
   color: var(--amber);
   padding: 14px 16px;
-  margin: 0 0 22px 0;
-  max-width: 620px;
   background: var(--amber-soft);
-  box-shadow: 0 0 14px var(--amber);
+  box-shadow: 0 0 14px var(--amber), inset 0 0 14px rgba(255, 184, 77, 0.08);
   text-shadow: 0 0 8px var(--amber);
   cursor: crosshair;
   transition: 0.2s ease;
@@ -586,18 +595,42 @@ h1 {
 .update-box:hover {
   background: var(--amber);
   color: var(--bg);
-  box-shadow: 0 0 24px var(--amber);
+  box-shadow: 0 0 24px var(--amber), 0 0 42px var(--amber-soft);
   transform: translateY(-2px);
+}
+
+.update-box strong {
+  display: block;
+  font-size: 18px;
+  margin-top: 6px;
+  letter-spacing: 1px;
 }
 
 .update-box p {
   margin: 8px 0;
+  line-height: 1.4;
+}
+
+.update-box small {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 12px;
+  letter-spacing: 1px;
 }
 
 .update-tag {
   display: inline-block;
   border: 1px solid var(--amber);
   padding: 4px 8px;
-  margin-bottom: 8px;
   font-size: 13px;
+  animation: piscar 1.2s infinite;
+}
+
+.update-box:hover .update-tag {
+  border-color: var(--bg);
+  text-shadow: none;
+}
+
+.update-box-visual {
+  border-style: dashed;
 }

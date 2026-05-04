@@ -29,15 +29,21 @@
   </header>
 
   <div id="submenu-faccoes" class="submenu-top">
+    <span class="submenu-label">PRINCIPAIS</span>
     <button onclick="trocarPagina('ncr')">NCR</button>
-    <button onclick="trocarPagina('mutants')">MUTANTS</button>
     <button onclick="trocarPagina('enclave')">ENCLAVE</button>
     <button onclick="trocarPagina('bos')">BROTHERHOOD</button>
-    <button onclick="trocarPagina('legion')">LEGION</button>
-    <button onclick="trocarPagina('railroad')">RAILROAD</button>
+    <button onclick="trocarPagina('legion')">CAESAR LEGION</button>
     <button onclick="trocarPagina('minutemen')">MINUTEMEN</button>
-    <button onclick="trocarPagina('raiders')">RAIDERS</button>
-    <button onclick="trocarPagina('children')">CHILDREN OF ATOM</button>
+
+    <span class="submenu-label hostile-label">HOSTIS</span>
+    <button class="hostile-menu" onclick="trocarPagina('faccoes_hostis')">ARQUIVO HOSTIL</button>
+    <button class="hostile-menu" onclick="trocarPagina('raiders')">RAIDERS</button>
+    <button class="hostile-menu" onclick="trocarPagina('fiends')">FIENDS</button>
+    <button class="hostile-menu" onclick="trocarPagina('khans')">GREAT KHANS</button>
+    <button class="hostile-menu" onclick="trocarPagina('mutants')">SUPER MUTANTS</button>
+    <button class="hostile-menu" onclick="trocarPagina('children')">CHILDREN OF ATOM</button>
+    <button class="hostile-menu" onclick="trocarPagina('railroad')">RAILROAD</button>
   </div>
 
   <div id="submenu-vaults" class="submenu-top">
@@ -47,14 +53,14 @@
   </div>
 
   <div id="submenu-bestiario" class="submenu-top">
-  <button onclick="abrirBestiario()">ARQUIVO GERAL</button>
-  <button onclick="trocarPagina('besta_necroticos')">NECRÓTICOS</button>
-  <button onclick="trocarPagina('besta_radbaratas')">RADBARATAS</button>
-  <button onclick="trocarPagina('besta_mutantes')">SUPER MUTANTES</button>
-  <button onclick="trocarPagina('besta_mongrels')">MONGRELS</button>
-  <button onclick="trocarPagina('besta_vermes')">VERMES RADIOATIVOS</button>
-  <button onclick="trocarPagina('besta_deathclaw')">DEATHCLAW</button>
-</div>
+    <button onclick="abrirBestiario()">ARQUIVO GERAL</button>
+    <button onclick="trocarPagina('besta_necroticos')">NECRÓTICOS</button>
+    <button onclick="trocarPagina('besta_radbaratas')">RADBARATAS</button>
+    <button onclick="trocarPagina('besta_mutantes')">SUPER MUTANTES</button>
+    <button onclick="trocarPagina('besta_mongrels')">MONGRELS</button>
+    <button onclick="trocarPagina('besta_vermes')">VERMES RADIOATIVOS</button>
+    <button onclick="trocarPagina('besta_deathclaw')">DEATHCLAW</button>
+  </div>
 
   <div id="submenu-special" class="submenu-top">
     <button onclick="trocarPagina('special_s')">S - SOBREVIVÊNCIA</button>
@@ -90,6 +96,7 @@
       </div>
 
       <h1 id="titulo">TERMINAL DA VAULT-TEC</h1>
+      <img id="faction-img" class="faction-img" alt="Ícone da facção">
       <p id="texto" class="typing"></p>
       <div id="bestiario-controle" class="bestiario-controle"></div>
       <img id="special-img" class="special-img" alt="Imagem S.P.E.C.I.A.L">
@@ -111,47 +118,179 @@ const paginas = {
 
   ncr: {
     titulo: "NCR",
-    texto: "A New California Republic tenta reconstruir a civilização com leis, exército e governo. Apesar de seu modus operandi mais agressivo, luta contra a corrupção, a burocracia e os perigos do Ermo para proteger as vítimas da guerra e de suas sequelas."
-  },
+    imagem: "assets/imagens/ncr.png",
+    tipo: "principal",
+    texto: `== FACÇÃO PRINCIPAL ==
 
-  mutants: {
-    titulo: "MUTANTS",
-    texto: "Criaturas alteradas pelo FEV. Fortes, resistentes e extremamente perigosas. Alguns mantêm consciência; outros são puro instinto."
+A New California Republic tenta reconstruir a civilização com leis, exército e governo. Apesar de seu modus operandi mais agressivo, luta contra a corrupção, a burocracia e os perigos do Ermo para proteger as vítimas da guerra e de suas sequelas.
+
+Influência: Alta
+> Possui presença militar, postos avançados e controle político crescente.
+
+Relação com o jogador: Variável
+> Pode ser aliada, inimiga ou apenas mais uma bandeira tentando controlar o Ermo.`
   },
 
   enclave: {
     titulo: "ENCLAVE",
-    texto: "Organização militar tecnológica formada por remanescentes do antigo governo dos Estados Unidos. Possuem armas avançadas e objetivos obscuros."
+    imagem: "assets/imagens/enclave.png",
+    tipo: "principal",
+    texto: `== FACÇÃO PRINCIPAL ==
+
+Organização militar tecnológica formada por remanescentes do antigo governo dos Estados Unidos. Possuem armas avançadas, armaduras potentes e objetivos frequentemente obscuros.
+
+Influência: Alta
+> Poucos em número, mas extremamente perigosos por sua tecnologia.
+
+Relação com o jogador: Instável
+> O Enclave raramente negocia de igual para igual.`
   },
 
   bos: {
     titulo: "BROTHERHOOD OF STEEL",
-    texto: "Ordem militar dedicada a coletar e preservar tecnologia pré-guerra. Disciplina, armaduras potentes e fanatismo tecnológico definem sua presença."
+    imagem: "assets/imagens/brotherhood.jpg",
+    tipo: "principal",
+    texto: `== FACÇÃO PRINCIPAL ==
+
+Ordem militar dedicada a coletar e preservar tecnologia pré-guerra. Disciplina, armaduras potentes e fanatismo tecnológico definem sua presença.
+
+Influência: Alta
+> Controlam tecnologia que poderia salvar ou condenar assentamentos inteiros.
+
+Relação com o jogador: Condicional
+> Respeitam força, utilidade e obediência. Não necessariamente nessa ordem.`
   },
 
   legion: {
     titulo: "CAESAR'S LEGION",
-    texto: "Império brutal inspirado em Roma Antiga. Baseado em força, escravidão, disciplina absoluta e dominação total dos inimigos."
-  },
+    imagem: "assets/imagens/legion.jpg",
+    tipo: "principal",
+    texto: `== FACÇÃO PRINCIPAL ==
 
-  railroad: {
-    titulo: "RAILROAD",
-    texto: "Organização secreta dedicada a libertar synths da escravidão. Operam nas sombras, usando códigos, disfarces e rotas ocultas."
+Império brutal inspirado em Roma Antiga. Baseado em força, escravidão, disciplina absoluta e dominação total dos inimigos.
+
+Influência: Alta
+> Onde a Legião chega, a escolha costuma desaparecer.
+
+Relação com o jogador: Perigosa
+> Aliança com a Legião cobra um preço moral alto.`
   },
 
   minutemen: {
     titulo: "MINUTEMEN",
-    texto: "Civis armados que defendem assentamentos e ajudam comunidades isoladas. Representam esperança em meio ao caos do Ermo."
+    imagem: "assets/imagens/minutemens.jpg",
+    tipo: "principal",
+    texto: `== FACÇÃO PRINCIPAL ==
+
+Civis armados que defendem assentamentos e ajudam comunidades isoladas. Representam esperança em meio ao caos do Ermo.
+
+Influência: Média
+> Crescem com apoio popular, não com medo.
+
+Relação com o jogador: Geralmente amistosa
+> Para eles, proteger o povo ainda significa alguma coisa.`
+  },
+
+  faccoes_hostis: {
+    titulo: "FACÇÕES HOSTIS",
+    imagem: "assets/imagens/warning.png",
+    tipo: "hostil",
+    texto: `== ARQUIVO DE AMEAÇAS ORGANIZADAS ==
+
+Facções hostis são grupos que operam contra a estabilidade dos assentamentos, contra os interesses das facções principais ou contra qualquer pessoa que pareça carregar suprimentos.
+
+— BANDOS —
+Raiders, Fiends e grupos de saqueadores independentes.
+
+— TRIBAIS —
+Great Khans e clãs violentos de território variável.
+
+— MUTANTES —
+Super Mutants e grupos contaminados por FEV.
+
+— CULTISTAS —
+Children of Atom e seitas radioativas.
+
+— CLANDESTINOS —
+Railroad e células secretas. Nem sempre são inimigos, mas podem se tornar hostis conforme o alinhamento do jogador.`
+  },
+
+  mutants: {
+    titulo: "SUPER MUTANTS",
+    imagem: "assets/imagens/mutants.jpg",
+    tipo: "hostil",
+    texto: `== FACÇÃO HOSTIL // MUTANTES ==
+
+Criaturas alteradas pelo FEV. Fortes, resistentes e extremamente perigosas. Alguns mantêm consciência; outros são puro instinto.
+
+Categoria: Mutantes
+Ameaça: Alta
+> A diplomacia é possível em casos raros. A fuga costuma ser mais confiável.`
   },
 
   raiders: {
     titulo: "RAIDERS",
-    texto: "Bandos violentos que vivem de pilhagem, caos e sobrevivência. Cada grupo tem sua própria crueldade, estética e território."
+    imagem: "assets/imagens/raiders.png",
+    tipo: "hostil",
+    texto: `== FACÇÃO HOSTIL // BANDOS ==
+
+Bandos violentos que vivem de pilhagem, caos e sobrevivência. Cada grupo tem sua própria crueldade, estética e território.
+
+Categoria: Bandos
+Ameaça: Média/Alta
+> Sozinhos são problema. Em grupo, são uma crise logística armada.`
+  },
+
+  fiends: {
+    titulo: "FIENDS",
+    imagem: "assets/imagens/fiends.png",
+    tipo: "hostil",
+    texto: `== FACÇÃO HOSTIL // BANDOS ==
+
+Drogados violentos, imprevisíveis e extremamente agressivos. Dominam áreas devastadas pela força, pelo medo e pela completa ausência de bom senso.
+
+Categoria: Bandos
+Ameaça: Alta
+> Recomendação Vault-Tec: não negociar com pessoas que decoram paredes com ossos.`
+  },
+
+  khans: {
+    titulo: "GREAT KHANS",
+    imagem: "assets/imagens/khans.jpeg",
+    tipo: "hostil",
+    texto: `== FACÇÃO HOSTIL // TRIBAIS ==
+
+Clã tribal com forte cultura de sobrevivência, tradição e violência territorial. Não são apenas saqueadores: são uma sociedade endurecida pelo Ermo.
+
+Categoria: Tribais
+Ameaça: Média
+> Podem ser inimigos, aliados temporários ou uma péssima ideia em forma de motocicleta.`
   },
 
   children: {
     titulo: "CHILDREN OF ATOM",
-    texto: "Seita religiosa que venera a radiação como manifestação divina. Para eles, o átomo é sagrado e a destruição é iluminação."
+    imagem: "assets/imagens/atom.png",
+    tipo: "hostil",
+    texto: `== FACÇÃO HOSTIL // CULTISTAS ==
+
+Seita religiosa que venera a radiação como manifestação divina. Para eles, o átomo é sagrado e a destruição é iluminação.
+
+Categoria: Cultistas
+Ameaça: Média
+> O problema não é apenas a radiação. É a convicção com que eles caminham até ela.`
+  },
+
+  railroad: {
+    titulo: "RAILROAD",
+    imagem: "assets/imagens/railroad.png",
+    tipo: "hostil",
+    texto: `== FACÇÃO CLANDESTINA // HOSTILIDADE VARIÁVEL ==
+
+Organização secreta dedicada a libertar synths da escravidão. Operam nas sombras, usando códigos, disfarces e rotas ocultas.
+
+Categoria: Clandestinos
+Ameaça: Variável
+> Não são necessariamente vilões. Mas se seus objetivos entrarem em conflito, eles somem antes que você entenda quem apertou o gatilho.`
   },
 
   vault13: {
@@ -210,8 +349,8 @@ Observamos uma tendência alarmante entre habitantes mais... "otimistas".
   },
 
   besta_necroticos: {
-  titulo: "BESTIÁRIO // NECRÓTICOS",
-  texto: `Os Necróticos são mutantes pós-humanos resultantes da exposição prolongada à radiação nuclear da Grande Guerra de 2077, caracterizados pela pele apodrecida, longevidade extrema e imunidade à radiação. Eles se dividem em duas categorias principais: os sencientes, que mantêm a inteligência e a capacidade de interagir com humanos, e os ferozes que perderam totalmente a sanidade e a capacidade de interação. 
+    titulo: "BESTIÁRIO // NECRÓTICOS",
+    texto: `Os Necróticos são mutantes pós-humanos resultantes da exposição prolongada à radiação nuclear da Grande Guerra de 2077, caracterizados pela pele apodrecida, longevidade extrema e imunidade à radiação. Eles se dividem em duas categorias principais: os sencientes, que mantêm a inteligência e a capacidade de interagir com humanos, e os ferozes que perderam totalmente a sanidade e a capacidade de interação.
 
 Força: 3
 > Ainda possuem força física suficiente para rasgar carne e derrubar habitantes despreparados.
@@ -224,11 +363,11 @@ Resistência: 6
 
 Ameaça: 5/10
 > Sozinhos são incômodos. Em grupo, tornam-se um problema administrativo grave.`
-},
+  },
 
-besta_radbaratas: {
-  titulo: "BESTIÁRIO // RADBARATAS",
-  texto: `São insetos mutantes resultantes da exposição à radiação atômica. Elas são versões gigantescas da barata americana pré-guerra, com tamanho comparável ao de um gato doméstico. Encontradas principalmente em locais subterrâneos, esgotos, edifícios abandonados e áreas irradiadas, as radbaratas são comuns em toda a América do Norte pós-apocalíptica.
+  besta_radbaratas: {
+    titulo: "BESTIÁRIO // RADBARATAS",
+    texto: `São insetos mutantes resultantes da exposição à radiação atômica. Elas são versões gigantescas da barata americana pré-guerra, com tamanho comparável ao de um gato doméstico. Encontradas principalmente em locais subterrâneos, esgotos, edifícios abandonados e áreas irradiadas, as radbaratas são comuns em toda a América do Norte pós-apocalíptica.
 
 Força: 1
 > Não esmagam sua armadura, mas certamente arruinam seu café da manhã.
@@ -241,11 +380,11 @@ Resistência: 1
 
 Ameaça: 1/10
 > Recomenda-se evitar contato direto, mordidas e qualquer tentativa de domesticação.`
-},
+  },
 
-besta_mutantes: {
-  titulo: "BESTIÁRIO // SUPER MUTANTES",
-  texto: `Os Super Mutantes são humanos transformados pela exposição ao Forced Evolutionary Virus (FEV), um agente mutagênico criado antes da guerra para desenvolver soldados superiores. Diferentemente dos necróticos, que são resultado da radiação, os super mutantes são criações artificiais.
+  besta_mutantes: {
+    titulo: "BESTIÁRIO // SUPER MUTANTES",
+    texto: `Os Super Mutantes são humanos transformados pela exposição ao Forced Evolutionary Virus (FEV), um agente mutagênico criado antes da guerra para desenvolver soldados superiores. Diferentemente dos necróticos, que são resultado da radiação, os super mutantes são criações artificiais.
 
 Força: 8
 > Capazes de esmagar portas, ossos e expectativas otimistas.
@@ -258,11 +397,12 @@ Resistência: 8
 
 Ameaça: 7/10
 > Ao avistar um, reavalie suas escolhas de vida imediatamente.`
-},
+  },
 
-besta_mongrels: {
-  titulo: "BESTIÁRIO // MONGRELS",
-  texto: `Os Mongrels são cães mutantes pós-guerra, considerados o equivalente canino dos necróticos, resultantes da exposição à radiação. Com aparência esquelética, pele exposta, focinho alongado e comportamento agressivo em matilhas.
+  besta_mongrels: {
+    titulo: "BESTIÁRIO // MONGRELS",
+    texto: `Os Mongrels são cães mutantes pós-guerra, considerados o equivalente canino dos necróticos, resultantes da exposição à radiação. Com aparência esquelética, pele exposta, focinho alongado e comportamento agressivo em matilhas.
+
 Força: 4
 > Mandíbulas fortes o bastante para transformar tornozelos em estatística.
 
@@ -274,11 +414,11 @@ Resistência: 4
 
 Ameaça: 3/10
 > O perigo real está no bando. E no fato de que eles não respeitam propriedade privada.`
-},
+  },
 
-besta_vermes: {
-  titulo: "BESTIÁRIO // VERMES RADIOATIVOS",
-  texto: `Os bloodworms são vermes mutantes originários de espécies aquáticas pré-guerra do gênero Glycera, conhecidas como bloodworms reais. Após a Grande Guerra, foram mutados pela radiação e migraram para regiões áridas, como o Dry Rock Gulch, onde se adaptaram ao ambiente terrestre. Medem cerca de 1.5m de comprimento.
+  besta_vermes: {
+    titulo: "BESTIÁRIO // VERMES RADIOATIVOS",
+    texto: `Os bloodworms são vermes mutantes originários de espécies aquáticas pré-guerra do gênero Glycera, conhecidas como bloodworms reais. Após a Grande Guerra, foram mutados pela radiação e migraram para regiões áridas, como o Dry Rock Gulch, onde se adaptaram ao ambiente terrestre. Medem cerca de 1.5m de comprimento.
 
 Força: 2
 > "Pequenos", mas desagradavelmente persistentes.
@@ -291,13 +431,13 @@ Resistência: 4
 
 Ameaça: 1/10
 > Não subestime criaturas que vivem felizes dentro de lixo tóxico.`
-},
+  },
 
-besta_deathclaw: {
-  titulo: "BESTIÁRIO // DEATHCLAW",
-  texto: `Predador ápice das terras esquecidas. A Vault-Tec recomenda observação apenas por ilustrações, filmagens ou relatos de terceiros falecidos. Deathclaws são extremamente perigosos e violentos. DeathClaws não foram criados pela radiação, são armas biológicas vindas de um experimento secreto que foram alteradas pela radiação. NUNCA SE APROXIME DE UM DEATHCLAW! ARMADURAS NÃO SÃO O SUFICIENTE!
+  besta_deathclaw: {
+    titulo: "BESTIÁRIO // DEATHCLAW",
+    texto: `Predador ápice das terras esquecidas. A Vault-Tec recomenda observação apenas por ilustrações, filmagens ou relatos de terceiros falecidos. Deathclaws são extremamente perigosos e violentos. DeathClaws não foram criados pela radiação, são armas biológicas vindas de um experimento secreto que foram alteradas pela radiação. NUNCA SE APROXIME DE UM DEATHCLAW! ARMADURAS NÃO SÃO O SUFICIENTE!
 
-Força: 15 
+Força: 15
 > Capaz de abrir armaduras, veículos e habitantes com eficiência alarmante.
 
 Velocidade: 8
@@ -308,7 +448,7 @@ Resistência: 12
 
 Ameaça: 10/10
 > Procedimento recomendado: não estar no mesmo lugar que ele.`
-},
+  },
 
   sistema: {
     titulo: "SISTEMA DE SOBREVIVÊNCIA",
@@ -318,43 +458,43 @@ Ameaça: 10/10
   special_s: {
     titulo: "S - SOBREVIVÊNCIA",
     texto: "Olá, Cidadão Exemplar! Você já parou para admirar a robustez das engrenagens que mantêm nossa Vault funcionando? Pois saiba que você também é uma peça fundamental dessa máquina! A Força é a medida da sua capacidade física bruta para interagir com o mundo ao seu redor. Para a Vault-Tec, um Habitante forte é sinônimo de eficiência logística! Este atributo define o quão pesado é o fardo que você consegue carregar — seja uma caixa cheia de suprimentos médicos vitais ou aquele entulho inconveniente que insiste em bloquear os corredores. Mas a Força não serve apenas para carregar coisas; ela garante que, quando as palavras falharem, você tenha o impacto necessário para resolver qualquer disputa física com... vigor!",
-    imagem: "assets/assets/special/s.png"
+    specialImagem: "assets/assets/special/s.png"
   },
 
   special_p: {
     titulo: "P - PERCEPÇÃO",
     texto: "Atenção, Habitante! No ambiente controlado e seguro da sua Vault, a curiosidade pode ter matado o gato, mas a Percepção mantém você vivo! Este atributo representa sua sintonização fina com o ambiente ao seu redor. Lá fora — naquele cenário hipotético e improvável que chamamos de exterior — sua Percepção ajuda você a detectar ameaças antes que elas detectem você. Seja ajustando a mira do seu rifle de serviço com precisão cirúrgica ou notando aquela armadilha de pressão que algum vândalo deixou no caminho, seus sentidos são ferramentas de alta fidelidade. Fique de olho nos detalhes, pois a Vault-Tec está de olho em você!",
-    imagem: "assets/assets/p.png"
+    specialImagem: "assets/assets/special/p.png"
   },
 
   special_e: {
     titulo: "E - ENERGIA",
     texto: "Saudações, Habitante! Energia mede sua resistência física, tolerância à fadiga, fome, ferimentos e radiação. Um Habitante com alta Energia aguenta mais, trabalha mais e sobrevive por mais tempo. Lembre-se: um corpo resistente é um corpo que sobrevive para ver o amanhã... e o relatório de amanhã!",
-    imagem: "assets/assets/special/e.png"
+    specialImagem: "assets/assets/special/e.png"
   },
 
   special_c: {
     titulo: "C - CARISMA",
     texto: "Saudações, Líder do Amanhã! Carisma representa sua capacidade de convencer, liderar, negociar, intimidar ou manipular outros sobreviventes. Uma boa conversa pode abrir portas que uma arma jamais abriria. Para a Vault-Tec, a coesão social é o tempero da sobrevivência. Use seu charme com responsabilidade corporativa.",
-    imagem: "assets/assets/special/c.png"
+    specialImagem: "assets/assets/special/c.png"
   },
 
   special_i: {
     titulo: "I - INTELIGÊNCIA",
     texto: "Saudações, Mente Brilhante! Inteligência representa sua habilidade com tecnologia, medicina, ciência e estratégia. Terminais, máquinas pré-guerra e planos complexos favorecem os mais inteligentes. Um Habitante inteligente não apenas sobrevive; ele otimiza!",
-    imagem: "assets/assets/special/i.png"
+    specialImagem: "assets/assets/special/i.png"
   },
 
   special_a: {
     titulo: "A - AGILIDADE",
     texto: "Saudações, Atleta da Vault! Agilidade representa seus reflexos, velocidade e controle corporal. Um Habitante ágil reage rápido, se move melhor e evita problemas antes que eles encostem nele. Seja esquivando-se de um projétil inesperado ou recarregando em um piscar de olhos, você é a personificação da fluidez.",
-    imagem: "assets/assets/special/a.png"
+    specialImagem: "assets/assets/special/a.png"
   },
 
   special_l: {
     titulo: "L - LÁBIA DA SORTE",
     texto: "Saudações, Sortudo! Lábia da Sorte representa improviso, malandragem, blefe e aquele inexplicável empurrão do destino. Às vezes, sobreviver é estar no lugar errado... mas do jeito certo. Para a Vault-Tec, Sorte é a variável X que transforma desastre estatístico em vitória triunfante.",
-    imagem: "assets/assets/special/l.png"
+    specialImagem: "assets/assets/special/l.png"
   }
 };
 
@@ -397,6 +537,7 @@ function tocarGlitch() {
 
 function alternarAnimacoes() {
   animacoesTextoAtivas = !animacoesTextoAtivas;
+  document.body.classList.toggle("sem-animacoes", !animacoesTextoAtivas);
 
   const botao = document.getElementById("anim-toggle");
   botao.textContent = animacoesTextoAtivas ? "TEXTO ANIMADO: ON" : "TEXTO ANIMADO: OFF";
@@ -404,7 +545,22 @@ function alternarAnimacoes() {
   tocarClique();
 }
 
-function mostrarImagem(imgSrc) {
+function mostrarImagemFacao(imgSrc, tipo = "") {
+  const img = document.getElementById("faction-img");
+
+  if (!imgSrc) {
+    img.style.display = "none";
+    img.removeAttribute("src");
+    img.className = "faction-img";
+    return;
+  }
+
+  img.src = imgSrc;
+  img.style.display = "block";
+  img.className = `faction-img ${tipo}`;
+}
+
+function mostrarImagemSpecial(imgSrc) {
   const img = document.getElementById("special-img");
 
   if (!imgSrc) {
@@ -453,7 +609,7 @@ function digitarTexto(texto, comSom = true) {
     i++;
 
     if (i >= texto.length) clearInterval(intervalo);
-  }, 35);
+  }, 25);
 }
 
 function abrirBestiario() {
@@ -498,7 +654,8 @@ function trocarPagina(pagina, manterControleBestiario = false) {
 
   document.getElementById("titulo").textContent = paginas[pagina].titulo;
   digitarTexto(paginas[pagina].texto, true);
-  mostrarImagem(paginas[pagina].imagem);
+  mostrarImagemFacao(paginas[pagina].imagem, paginas[pagina].tipo);
+  mostrarImagemSpecial(paginas[pagina].specialImagem);
 }
 
 function glitchBar(idTexto, idBarra, base, variacao, tipo) {
@@ -567,6 +724,8 @@ function iniciarBoot() {
 
 document.getElementById("titulo").textContent = paginas.inicio.titulo;
 digitarTexto(paginas.inicio.texto, false);
+mostrarImagemFacao(null);
+mostrarImagemSpecial(null);
 glitchBar("hp-text", "hp-bar", 80, 7, "hp");
 glitchBar("rad-text", "rad-bar", 20, 5, "rad");
 iniciarBoot();

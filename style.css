@@ -634,3 +634,296 @@ h1 {
 .update-box-visual {
   border-style: dashed;
 }
+
+
+/* RÁDIO PIP-BOY */
+#updates-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0 0 24px 0;
+  max-width: 760px;
+}
+
+.radio-popup {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(57, 255, 20, 0.035),
+      rgba(57, 255, 20, 0.035) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    rgba(0, 0, 0, 0.88);
+  z-index: 99999;
+}
+
+.radio-box {
+  width: min(440px, 100%);
+  border: 2px solid var(--green);
+  padding: 24px;
+  background: rgba(0, 20, 0, 0.94);
+  box-shadow: 0 0 25px var(--green), inset 0 0 24px rgba(57, 255, 20, 0.08);
+  text-align: center;
+  text-shadow: 0 0 8px var(--green);
+  animation: ligarTela 0.35s ease-out;
+}
+
+.radio-box h2 {
+  margin: 0 0 12px 0;
+  font-size: 24px;
+  letter-spacing: 1px;
+}
+
+.radio-box p {
+  margin: 0 0 18px 0;
+  line-height: 1.5;
+}
+
+.radio-controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin: 18px 0 14px;
+  flex-wrap: wrap;
+}
+
+.radio-controls button {
+  background: transparent;
+  color: var(--green);
+  border: 1px solid var(--green);
+  padding: 10px 14px;
+  font-family: inherit;
+  text-shadow: 0 0 8px var(--green);
+}
+
+.radio-controls button:hover {
+  background: var(--green);
+  color: var(--bg);
+  box-shadow: 0 0 15px var(--green);
+}
+
+.volume-control {
+  border: 1px dashed rgba(57, 255, 20, 0.65);
+  padding: 14px;
+  margin-top: 14px;
+  background: rgba(57, 255, 20, 0.05);
+}
+.knob-control {
+  text-align: center;
+}
+
+.knob-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.volume-knob {
+  width: 74px;
+  height: 74px;
+  border: 2px solid var(--green);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(57, 255, 20, 0.45), transparent 18%),
+    radial-gradient(circle, rgba(57, 255, 20, 0.16), rgba(0, 20, 0, 0.85) 65%);
+  box-shadow:
+    0 0 18px var(--green),
+    inset 0 0 18px rgba(57, 255, 20, 0.28);
+  position: relative;
+  transform: rotate(-42deg);
+  transition: transform 0.12s ease, box-shadow 0.2s ease;
+}
+
+.volume-knob::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  width: 4px;
+  height: 24px;
+  transform: translateX(-50%);
+  background: var(--green);
+  box-shadow: 0 0 10px var(--green);
+}
+
+.volume-knob::after {
+  content: "";
+  position: absolute;
+  inset: 16px;
+  border: 1px dashed rgba(57, 255, 20, 0.55);
+  border-radius: 50%;
+}
+
+.volume-knob:hover {
+  box-shadow:
+    0 0 26px var(--green),
+    inset 0 0 22px rgba(57, 255, 20, 0.4);
+}
+
+#volume-value {
+  border: 1px solid var(--green);
+  padding: 5px 10px;
+  background: rgba(57, 255, 20, 0.08);
+  text-shadow: 0 0 8px var(--green);
+  font-size: 13px;
+}
+
+.knob-control input[type="range"] {
+  margin-top: 12px;
+}
+
+/* === KNOB + SLIDER DE VOLUME ESTILO FALLOUT === */
+.volume-control.knob-control {
+  position: relative;
+  padding: 18px 18px 20px;
+  border: 1px dashed rgba(57, 255, 20, 0.75);
+  background:
+    linear-gradient(90deg, rgba(57, 255, 20, 0.04), rgba(57, 255, 20, 0.12), rgba(57, 255, 20, 0.04)),
+    rgba(0, 15, 0, 0.72);
+  box-shadow:
+    inset 0 0 18px rgba(57, 255, 20, 0.12),
+    0 0 14px rgba(57, 255, 20, 0.22);
+}
+
+.volume-control.knob-control::before,
+.volume-control.knob-control::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  width: 32px;
+  height: 1px;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  opacity: 0.65;
+}
+
+.volume-control.knob-control::before { left: 14px; }
+.volume-control.knob-control::after { right: 14px; }
+
+.volume-control.knob-control label {
+  display: inline-block;
+  padding: 4px 12px;
+  border: 1px solid rgba(57, 255, 20, 0.65);
+  background: rgba(57, 255, 20, 0.08);
+  letter-spacing: 2px;
+  font-size: 13px;
+  text-shadow: 0 0 10px var(--green);
+}
+
+.knob-wrap {
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.volume-knob {
+  width: 86px;
+  height: 86px;
+  border: 2px solid var(--green);
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.22), transparent 10%),
+    radial-gradient(circle at center, rgba(57, 255, 20, 0.38), rgba(0, 28, 0, 0.95) 58%, rgba(0, 0, 0, 0.9) 100%);
+  box-shadow:
+    0 0 18px var(--green),
+    0 0 36px rgba(57, 255, 20, 0.22),
+    inset 0 0 16px rgba(57, 255, 20, 0.32),
+    inset 0 0 32px rgba(0, 0, 0, 0.72);
+}
+
+.volume-knob::before {
+  top: 7px;
+  width: 5px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--green);
+  box-shadow: 0 0 12px var(--green), 0 0 24px var(--green-soft);
+}
+
+.volume-knob::after {
+  inset: 17px;
+  border: 1px dashed rgba(57, 255, 20, 0.68);
+  box-shadow: inset 0 0 10px rgba(57, 255, 20, 0.15);
+}
+
+#volume-value {
+  min-width: 58px;
+  border: 1px solid var(--green);
+  padding: 6px 10px;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(57, 255, 20, 0.08),
+      rgba(57, 255, 20, 0.08) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    rgba(0, 20, 0, 0.65);
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.35), inset 0 0 10px rgba(57, 255, 20, 0.12);
+  letter-spacing: 1px;
+}
+
+.knob-control input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 18px;
+  margin-top: 16px;
+  padding: 0 3px;
+  border: 1px solid var(--green);
+  background:
+    linear-gradient(90deg, rgba(57, 255, 20, 0.85), rgba(57, 255, 20, 0.28)),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 11px,
+      rgba(57, 255, 20, 0.55) 12px,
+      transparent 13px
+    ),
+    rgba(0, 0, 0, 0.72);
+  box-shadow:
+    0 0 14px rgba(57, 255, 20, 0.42),
+    inset 0 0 12px rgba(0, 0, 0, 0.8);
+  cursor: crosshair;
+  outline: none;
+}
+
+.knob-control input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 28px;
+  border: 1px solid var(--green);
+  background:
+    linear-gradient(to bottom, var(--green), #0b5f0b);
+  box-shadow:
+    0 0 12px var(--green),
+    inset 0 0 6px rgba(0, 0, 0, 0.55);
+}
+
+.knob-control input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 18px var(--green), 0 0 28px rgba(57, 255, 20, 0.45);
+}
+
+.knob-control input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 28px;
+  border: 1px solid var(--green);
+  border-radius: 0;
+  background: var(--green);
+  box-shadow: 0 0 12px var(--green);
+}
+
+.knob-control input[type="range"]::-moz-range-track {
+  height: 18px;
+  border: 1px solid var(--green);
+  background: rgba(0, 0, 0, 0.72);
+}

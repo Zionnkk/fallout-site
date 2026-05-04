@@ -28,6 +28,7 @@
     <button onclick="abrirSubmenu('submenu-vaults')">VAULTS</button>
     <button onclick="abrirSubmenu('submenu-bestiario')">BESTIÁRIO</button>
     <button onclick="abrirSubmenu('submenu-special')">S.P.E.C.I.A.L</button>
+    <button onclick="abrirSubmenu('submenu-radio')">RÁDIO</button>
     <button onclick="trocarPagina('sistema')">SISTEMA</button>
   </header>
 
@@ -75,6 +76,15 @@
     <button onclick="trocarPagina('special_l')">L - LÁBIA</button>
   </div>
 
+  <div id="submenu-radio" class="submenu-top">
+    <span class="submenu-label">ESTAÇÕES</span>
+    <button onclick="pedirPermissaoRadio('diamond')">RADIO DIAMOND</button>
+    <button onclick="pedirPermissaoRadio('concord')">RADIO CONCORD</button>
+    <button onclick="pedirPermissaoRadio('wasteland')">RADIO WASTELAND</button>
+    <button onclick="proximaMusicaRadio()">PRÓXIMA MÚSICA</button>
+    <button onclick="pararRadio()">DESLIGAR RÁDIO</button>
+  </div>
+
   <main class="main-area">
     <section class="pipboy-box">
       <img src="assets/pipboy.png" class="pipboy-img" alt="Vault Boy">
@@ -99,29 +109,66 @@
       </div>
 
       <h1 id="titulo">TERMINAL DA VAULT-TEC</h1>
+      <div id="updates-container">
 
-      <div id="updates-container" class="updates-container">
-        <div class="update-box" onclick="abrirFaccao('minutemen')">
-          <span class="update-tag">NOVA ATUALIZAÇÃO</span>
-          <strong>Facções atualizadas</strong>
-          <p>Sistema de atributos S.P.E.C.I.A.L adicionado às facções.</p>
-          <small>&gt; CLIQUE PARA ACESSAR</small>
-        </div>
+  <div class="update-box" data-update-id="faccoes-v1" onclick="marcarUpdateVisto(this); abrirFaccao('minutemen')">
+    <span class="update-tag">NOVA ATUALIZAÇÃO</span>
+    <strong>Facções atualizadas</strong>
+    <p>Sistema de atributos S.P.E.C.I.A.L adicionado às facções.</p>
+    <small>&gt; CLIQUE PARA ACESSAR</small>
+  </div>
 
-        <div class="update-box update-box-visual" onclick="trocarPagina('inicio')">
-          <span class="update-tag">NOVA ATUALIZAÇÃO</span>
-          <strong>Ícone do site adicionado</strong>
-          <p>O terminal agora possui um ícone exclusivo!</p>
-          <small>&gt; VISUAL APRIMORADO</small>
-        </div>
-      </div>
+  <div class="update-box" data-update-id="favicon-v1" onclick="marcarUpdateVisto(this)">
+    <span class="update-tag">NOVA ATUALIZAÇÃO</span>
+    <strong>Ícone do site adicionado</strong>
+    <p>O terminal agora possui um ícone exclusivo.</p>
+    <small>&gt; VISUAL APRIMORADO</small>
+  </div>
 
+<div class="update-box" data-update-id="radio-volume-v1" onclick="marcarUpdateVisto(this); pedirPermissaoRadio('diamond')">
+  <span class="update-tag">NOVA ATUALIZAÇÃO</span>
+  <strong>Controle de volume adicionado</strong>
+  <p>O rádio agora possui knob giratório e slider estilo Pip-Boy.</p>
+  <small>&gt; TESTAR RÁDIO</small>
+</div>
+
+
+</div>
       <img id="faction-img" class="faction-img" alt="Ícone da facção">
       <p id="texto" class="typing"></p>
       <div id="bestiario-controle" class="bestiario-controle"></div>
       <img id="special-img" class="special-img" alt="Imagem S.P.E.C.I.A.L">
     </section>
   </main>
+</div>
+
+
+<audio id="radio-player" preload="auto"></audio>
+
+<div id="radio-popup" class="radio-popup" aria-hidden="true">
+  <div class="radio-box">
+    <h2>TRANSMISSÃO DETECTADA</h2>
+    <p id="radio-popup-text">Deseja sintonizar esta frequência?</p>
+
+    <div class="volume-control knob-control">
+      <label>VOLUME</label>
+
+      <div class="knob-wrap">
+        <div id="volume-knob" class="volume-knob"></div>
+        <span id="volume-value">40%</span>
+      </div>
+
+      <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.4">
+    </div>
+
+
+    <div class="radio-controls">
+      <button onclick="confirmarRadio()">SINTONIZAR</button>
+      <button onclick="cancelarRadio()">CANCELAR</button>
+    </div>
+
+    <small>&gt; A transmissão será processada com filtro de rádio antigo.</small>
+  </div>
 </div>
 
 <script>
@@ -274,7 +321,7 @@ SORTE: 5
 
 A Caesar's Legion é um império brutal inspirado em Roma Antiga, construído sobre conquista, escravidão, obediência absoluta e guerra. A Legião marcha com sua fé absurda em seu líder, Caesar, e sua visão ''distópica''' de ordem.
 
-Sua força nasce da disciplina, dos gladiadores, da possível escravidão...`
+Sua força é disciplina dos gladiadores, da possível escravidão...`
 
   },
 
@@ -315,12 +362,7 @@ SORTE: 3
 ''Olhe ao seu redor, soldado. O que você vê? Ruínas? Medo? Eu vejo uma oportunidade. Os Minutemen não nasceram em laboratórios, mas em um grito de socorro.''
 
 Os Minutemen são uma milícia de voluntários dedicada a proteger os indefesos e restaurar a ordem civil. Com uma estrutura descentralizada, operam em comunidades locais, defendendo inocentes contra ameaças e promovendo cooperação entre sobreviventes.
-
-Influência: Comunitária
-> Crescem onde há confiança, rádio funcionando e alguém disposto a responder pedidos de ajuda.
-
-Relação com o jogador: Aliada
-> Para eles, proteger o povo ainda significa alguma coisa.`
+`
   },
 
   minutemen_atributos: {
@@ -333,13 +375,13 @@ FORÇA: 4
 > Milícia popular. Não são brutais, mas sabem segurar uma linha defensiva.
 
 PERCEPÇÃO: 5
-> Sentinelas, vigias e patrulheiros atentos às necessidades dos assentamentos.
+> Os Minutemens são ótimos em perceber perigos.
 
-RESISTÊNCIA: 5
+RESISTÊNCIA: 4
 > Aguentam o tranco porque desistir significaria abandonar o próprio povo.
 
 CARISMA: 8
-> O coração da facção. A união é sua arma mais importante.
+> O coração da facção. 
 
 INTELIGÊNCIA: 5
 > Sabem construir, improvisar defesas e manter comunidades funcionando.
@@ -348,7 +390,7 @@ AGILIDADE: 4
 > Treinamento simples, direto e funcional.
 
 SORTE: 5
-> Quando o povo se une, até o Ermo parece hesitar por um segundo.`
+> Quando o povo se une, o destino parece estar ao seu lado`
   },
 
   faccoes_hostis: {
@@ -1039,13 +1081,290 @@ function mostrarControleFaccao() {
   `;
 }
 
+function carregarUpdatesVistos() {
+  document.querySelectorAll(".update-box").forEach(update => {
+    const id = update.dataset.updateId;
+
+    if (localStorage.getItem(`update-visto-${id}`) === "true") {
+      update.style.display = "none";
+    }
+  });
+
+  atualizarContainerUpdates();
+}
+
+function marcarUpdateVisto(elemento) {
+  const id = elemento.dataset.updateId;
+
+  localStorage.setItem(`update-visto-${id}`, "true");
+  elemento.style.display = "none";
+
+  atualizarContainerUpdates();
+}
+
+function atualizarContainerUpdates() {
+  const container = document.getElementById("updates-container");
+  if (!container) return;
+
+  const visiveis = [...container.querySelectorAll(".update-box")]
+    .some(update => update.style.display !== "none");
+
+  container.style.display = visiveis ? "flex" : "none";
+}
+
+
+const radios = {
+  diamond: {
+    nome: "RADIO DIAMOND",
+    playlist: [
+      "sounds/Surfin'Bird.mp3",
+      "sounds/Cannock-Chase.mp3",
+      "sounds/Un-homme-et-une-femme.mp3"
+    ]
+  },
+  concord: {
+    nome: "RADIO CONCORD",
+    playlist: [
+      "sounds/I'll-Never-Smile-Again.mp3",
+      "sounds/I-Don't-Want-to-set-the-world-on-fire.mp3",
+      "sounds/Balada-de-las-Trompetas.mp3"
+    ]
+  },
+  wasteland: {
+    nome: "RADIO WASTELAND",
+    playlist: [
+      "sounds/Hit-the-road-Jack.mp3",
+      "sounds/When-You're-Smiling.mp3",
+      "sounds/Horse-with-no-name.mp3"
+  ]
+  }
+};
+
+let radioSelecionada = null;
+let radioAtual = null;
+let indiceMusicaAtual = -1;
+let radioFonteCriada = false;
+let radioGainNode = null;
+
+function pedirPermissaoRadio(nome) {
+  if (!radios[nome]) return;
+
+  radioSelecionada = nome;
+
+  const popup = document.getElementById("radio-popup");
+  const texto = document.getElementById("radio-popup-text");
+
+  texto.textContent = `Deseja sintonizar ${radios[nome].nome}?`;
+  popup.style.display = "flex";
+  popup.setAttribute("aria-hidden", "false");
+
+  tocarClique();
+}
+
+function confirmarRadio() {
+  if (!radioSelecionada) return;
+
+  const popup = document.getElementById("radio-popup");
+  popup.style.display = "none";
+  popup.setAttribute("aria-hidden", "true");
+
+  radioAtual = radioSelecionada;
+  audioCtx.resume();
+  configurarEfeitoRadioAntigo();
+
+  document.getElementById("titulo").textContent = "RÁDIO ATIVO";
+  digitarTexto(`SINTONIZANDO: ${radios[radioAtual].nome}\n\n> Procurando frequência...\n> Interferência detectada...`, false);
+
+  tocarChiadoRadio(0.85);
+
+  setTimeout(() => {
+    tocarMusicaAleatoria(true);
+  }, 900);
+}
+
+function cancelarRadio() {
+  const popup = document.getElementById("radio-popup");
+  popup.style.display = "none";
+  popup.setAttribute("aria-hidden", "true");
+  radioSelecionada = null;
+  tocarClique();
+}
+
+function configurarEfeitoRadioAntigo() {
+  if (radioFonteCriada) return;
+
+  const player = document.getElementById("radio-player");
+  const fonte = audioCtx.createMediaElementSource(player);
+
+  const highpass = audioCtx.createBiquadFilter();
+  highpass.type = "highpass";
+  highpass.frequency.value = 220;
+
+  const lowpass = audioCtx.createBiquadFilter();
+  lowpass.type = "lowpass";
+  lowpass.frequency.value = 1850;
+
+  const compressor = audioCtx.createDynamicsCompressor();
+  compressor.threshold.value = -28;
+  compressor.knee.value = 28;
+  compressor.ratio.value = 8;
+  compressor.attack.value = 0.01;
+  compressor.release.value = 0.25;
+
+  radioGainNode = audioCtx.createGain();
+  radioGainNode.gain.value = Number(document.getElementById("volume-slider").value);
+
+  fonte.connect(highpass);
+  highpass.connect(lowpass);
+  lowpass.connect(compressor);
+  compressor.connect(radioGainNode);
+  radioGainNode.connect(audioCtx.destination);
+
+  radioFonteCriada = true;
+}
+
+function tocarMusicaAleatoria(mostrarTexto = false) {
+  if (!radioAtual || !radios[radioAtual]) return;
+
+  const player = document.getElementById("radio-player");
+  const lista = radios[radioAtual].playlist;
+
+  if (!lista.length) return;
+
+  let novoIndice = Math.floor(Math.random() * lista.length);
+
+  if (lista.length > 1) {
+    while (novoIndice === indiceMusicaAtual) {
+      novoIndice = Math.floor(Math.random() * lista.length);
+    }
+  }
+
+  indiceMusicaAtual = novoIndice;
+  player.src = lista[indiceMusicaAtual];
+  player.volume = Number(document.getElementById("volume-slider").value);
+  player.onended = () => proximaMusicaRadio(true);
+
+  player.play().then(() => {
+    if (mostrarTexto) {
+      document.getElementById("titulo").textContent = "RÁDIO ATIVO";
+      digitarTexto(`SINTONIZADO EM: ${radios[radioAtual].nome}\n\n> Transmissão iniciada.\n> Qualidade: rádio antigo.\n> Faixa atual: ${player.src.split("/").pop()}`, false);
+    }
+  }).catch(() => {
+    document.getElementById("titulo").textContent = "RÁDIO BLOQUEADO";
+    digitarTexto("> O navegador bloqueou a reprodução. Clique em SINTONIZAR novamente.", false);
+  });
+}
+
+function proximaMusicaRadio(automatico = false) {
+  if (!radioAtual) return;
+
+  const player = document.getElementById("radio-player");
+  player.pause();
+
+  if (!automatico) tocarClique();
+  tocarChiadoRadio(0.65);
+
+  document.getElementById("titulo").textContent = "RÁDIO ATIVO";
+  digitarTexto(`SINTONIZADO EM: ${radios[radioAtual].nome}\n\n> Trocando frequência...\n> Chiado na transmissão...`, false);
+
+  setTimeout(() => {
+    tocarMusicaAleatoria(true);
+  }, 720);
+}
+
+function pararRadio() {
+  const player = document.getElementById("radio-player");
+
+  player.pause();
+  player.removeAttribute("src");
+  player.load();
+
+  radioAtual = null;
+  radioSelecionada = null;
+  indiceMusicaAtual = -1;
+
+  tocarChiadoRadio(0.35);
+  tocarClique();
+
+  document.getElementById("titulo").textContent = "RÁDIO DESLIGADO";
+  digitarTexto("> Nenhuma transmissão ativa.", false);
+}
+
+function tocarChiadoRadio(duracao = 0.55) {
+  if (audioCtx.state === "suspended") return;
+
+  const tamanho = Math.floor(audioCtx.sampleRate * duracao);
+  const buffer = audioCtx.createBuffer(1, tamanho, audioCtx.sampleRate);
+  const dados = buffer.getChannelData(0);
+
+  for (let i = 0; i < tamanho; i++) {
+    dados[i] = (Math.random() * 2 - 1) * 0.65;
+  }
+
+  const ruido = audioCtx.createBufferSource();
+  const filtro = audioCtx.createBiquadFilter();
+  const ganho = audioCtx.createGain();
+
+  ruido.buffer = buffer;
+  filtro.type = "bandpass";
+  filtro.frequency.value = 1350;
+  filtro.Q.value = 0.8;
+
+  ganho.gain.setValueAtTime(0.001, audioCtx.currentTime);
+  ganho.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 0.05);
+  ganho.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duracao);
+
+  ruido.connect(filtro);
+  filtro.connect(ganho);
+  ganho.connect(audioCtx.destination);
+
+  ruido.start();
+  ruido.stop(audioCtx.currentTime + duracao);
+}
+
+function atualizarVisualVolume() {
+  const slider = document.getElementById("volume-slider");
+  const knob = document.getElementById("volume-knob");
+  const valor = document.getElementById("volume-value");
+  const player = document.getElementById("radio-player");
+
+  if (!slider || !knob || !valor || !player) return;
+
+  const volume = Number(slider.value);
+  const graus = -135 + volume * 270;
+
+  player.volume = volume;
+  knob.style.transform = `rotate(${graus}deg)`;
+  valor.textContent = Math.round(volume * 100) + "%";
+
+  if (radioGainNode) {
+    radioGainNode.gain.value = volume;
+  }
+}
+
+function configurarVolumeRadio() {
+  const slider = document.getElementById("volume-slider");
+
+  if (!slider) return;
+
+  slider.addEventListener("input", atualizarVisualVolume);
+  slider.addEventListener("change", () => tocarChiadoRadio(0.18));
+
+  atualizarVisualVolume();
+}
+
+
 function trocarPagina(pagina, manterControleBestiario = false) {
   if (!paginas[pagina]) return;
 
-  const updatesContainer = document.getElementById("updates-container");
-  if (updatesContainer) {
-    updatesContainer.style.display = pagina === "inicio" ? "flex" : "none";
+  const updates = document.getElementById("updates-container");
+if (updates) {
+  if (pagina === "inicio") {
+    atualizarContainerUpdates();
+  } else {
+    updates.style.display = "none";
   }
+}
 
   const controleBestiario = document.getElementById("bestiario-controle");
   if (controleBestiario && !manterControleBestiario) controleBestiario.style.display = "none";
@@ -1130,6 +1449,8 @@ mostrarImagemFacao(null);
 mostrarImagemSpecial(null);
 glitchBar("hp-text", "hp-bar", 80, 7, "hp");
 glitchBar("rad-text", "rad-bar", 20, 5, "rad");
+configurarVolumeRadio();
+carregarUpdatesVistos();
 iniciarBoot();
 </script>
 </body>
